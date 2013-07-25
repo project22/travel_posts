@@ -1,5 +1,5 @@
 class LocationsController < ApplicationController
-  before_action :set_user
+  before_action :set_user # the location controller is always used in context with a set user.
   before_action :set_location, only: [:show, :edit, :update, :destroy]
 
   # GET /locations
