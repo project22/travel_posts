@@ -4,7 +4,15 @@ class LocationsController < ApplicationController
   # GET /locations
   # GET /locations.json
   def index
+    # we added this if statement
+    if params[:user_id] then
+      # User.find[params[:user_id]]
+      #puts params[:user_id]
+      @user = User.find(params[:user_id])
+      @locations = @user.locations
+    else
     @locations = Location.all
+    end
   end
 
   # GET /locations/1

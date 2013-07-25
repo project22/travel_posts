@@ -6,6 +6,7 @@ class CreateLocations < ActiveRecord::Migration
       t.string :name
       t.integer :user_id
 
+
       t.timestamps
     end
   end

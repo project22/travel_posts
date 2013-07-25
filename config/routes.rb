@@ -3,7 +3,17 @@ TravelPosts::Application.routes.draw do
 
   resources :locations
 
-  resources :users
+  resources :users do
+    # JP added this.  Add location uner user to help user location route for a specifice user
+    #http://localhost:3000/users/1/locations
+    #locations_controller for /locations has a conditional to look for a user id param
+    # Now we want this to work
+    # http://localhost:3000/users/1/locations/new
+    # http://guides.rubyonrails.org/getting_started.html
+    resources :locations
+  end
+
+  root to: 'users#index'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
