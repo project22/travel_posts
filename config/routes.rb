@@ -1,4 +1,5 @@
 TravelPosts::Application.routes.draw do
+  
   resources :posts
 
   resources :locations
@@ -13,7 +14,7 @@ TravelPosts::Application.routes.draw do
     resources :locations
   end
 
-  root to: 'users#index'
+  root to: 'site#index'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

@@ -1,18 +1,11 @@
 class LocationsController < ApplicationController
+  before_action :set_user
   before_action :set_location, only: [:show, :edit, :update, :destroy]
 
   # GET /locations
   # GET /locations.json
   def index
-    # we added this if statement
-    if params[:user_id] then
-      # User.find[params[:user_id]]
-      #puts params[:user_id]
-      @user = User.find(params[:user_id])
-      @locations = @user.locations
-    else
-    @locations = Location.all
-    end
+    @user.locations
   end
 
   # GET /locations/1
@@ -23,6 +16,7 @@ class LocationsController < ApplicationController
   # GET /locations/new
   def new
     @location = Location.new
+    @location.user = @user
   end
 
   # GET /locations/1/edit
@@ -33,10 +27,11 @@ class LocationsController < ApplicationController
   # POST /locations.json
   def create
     @location = Location.new(location_params)
+    @location.user = @user
 
     respond_to do |format|
       if @location.save
-        format.html { redirect_to @location, notice: 'Location was successfully created.' }
+        format.html { redirect_to [@user, @location], notice: 'Location was successfully created.' }
         format.json { render action: 'show', status: :created, location: @location }
       else
         format.html { render action: 'new' }
@@ -50,7 +45,7 @@ class LocationsController < ApplicationController
   def update
     respond_to do |format|
       if @location.update(location_params)
-        format.html { redirect_to @location, notice: 'Location was successfully updated.' }
+        format.html { redirect_to [@user, @location], notice: 'Location was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: 'edit' }
@@ -64,15 +59,20 @@ class LocationsController < ApplicationController
   def destroy
     @location.destroy
     respond_to do |format|
-      format.html { redirect_to locations_url }
+      format.html { redirect_to user_locations_url(@user) }
       format.json { head :no_content }
     end
   end
 
   private
+    # Get the user if the controller has been called via a user route
+    def set_user
+      @user = current_user
+    end
+
     # Use callbacks to share common setup or constraints between actions.
     def set_location
-      @location = Location.find(params[:id])
+      @location = @user.locations.find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
