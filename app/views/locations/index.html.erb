@@ -1,0 +1,33 @@
+<h1>Listing locations</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Latitude</th>
+      <th>Longitude</th>
+      <th>Name</th>
+      <th>User</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @user.locations.each do |location| %>
+      <tr>
+        <td><%= location.latitude %></td>
+        <td><%= location.longitude %></td>
+        <td><%= location.name %></td>
+        <td><%= location.user_id %></td>
+        <td><%= link_to 'Show', user_location_path(@user, location) %></td>
+        <td><%= link_to 'Edit', edit_user_location_path(@user, location) %></td>
+        <td><%= link_to 'Destroy', user_location_path(@user, location), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Location', new_user_location_path(@user) %>

@@ -1,0 +1,10 @@
+<h1>This is the home page</h1>
+<p>Map of locations goes here.</p>
+<% @locations.each do |loc| %>
+<div><%= loc.name %>, <%= loc.latitude %>, <%= loc.longitude %></div>
+<% end %>
+<% if @user %>
+	<%= render 'locations/form' %>
+<% else %>
+	<p>Log in to add a location!</p>
+<% end %>
