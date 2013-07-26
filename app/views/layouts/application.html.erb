@@ -9,10 +9,23 @@
  <!--[if lte IE 8]>
      <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.ie.css" />
  <![endif]-->
+
  <script src="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.js"></script>
- <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
 </head>
 <body>
+	<div class="navbar  navbar-inverse navbar-static-top">
+  <div class="navbar-inner">
+    <a class="brand" href="#">Travel Posts</a>
+    <ul class="nav">
+      <li class="active"><a href="#">All Post</a></li>
+      <li><a href="#">Add a Post</a></li>
+      <li><a href="#"  class="pull-right">Login</a></li>
+      <li><a href="#"  class="pull-right">Signup</a></li>
+    </ul>
+  </div>
+</div>
 
 <%= yield %>
 

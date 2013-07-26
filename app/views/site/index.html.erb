@@ -1,15 +1,103 @@
-<h1>This is the home page</h1>
-<script type="text/javascript">
-var map = L.map('map').setView([51.505, -0.09], 13);
 
-</script>
-<p>Map of locations goes here.</p>
+
 <div id="map"></div>
+<a href="#addLocation" role="button" class="btn" data-toggle="modal">Add Location</a>
+<a href="#explore" role="button" class="btn" data-toggle="modal">Explore</a>
+<a href="#myStory" role="button" class="btn" data-toggle="modal">My Story</a>
+<a href="#signOut" role="button" class="btn" data-toggle="modal">Sign Out</a>
+ 
+<!-- Modal -->
+<div id="addLocation" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="myModalLabel">Add a New Location</h3>
+  </div>
+  <div class="modal-body">
+    <p>Enter a name for this location.</p>
+    <p><%= render 'locations/form' %></p>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+    <button class="btn btn-primary">Save changes</button>
+  </div>
+</div>
+
+<!-- Modal -->
+<div id="explore" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="myModalLabel">Modal header</h3>
+  </div>
+  <div class="modal-body">
+    <p>One fine body…</p>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+    <button class="btn btn-primary">Save changes</button>
+  </div>
+</div>
+
+<!-- Modal -->
+<div id="myStory" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="myModalLabel">Modal header</h3>
+  </div>
+  <div class="modal-body">
+    
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+    <button class="btn btn-primary">Save changes</button>
+  </div>
+</div>
+
+<!-- Modal -->
+<div id="signOut" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="myModalLabel">Modal header</h3>
+  </div>
+  <div class="modal-body">
+    <p>One fine body…</p>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+    <button class="btn btn-primary">Save changes</button>
+  </div>
+</div>
+
+
 <% @locations.each do |loc| %>
 <div><%= loc.name %>, <%= loc.latitude %>, <%= loc.longitude %></div>
 <% end %>
+
 <% if @user %>
 	<%= render 'locations/form' %>
 <% else %>
 	<p>Log in to add a location!</p>
 <% end %>
+
+
+
+
+<button class="btn btn-large btn-primary" type="button">Large button</button>
+
+
+<script type="text/javascript">
+var map = L.map('map').setView([43.186983, 10.604553], 4);
+
+L.tileLayer('http://{s}.tile.cloudmade.com/fbd36621a2c14de283e0a63cbab9d68b/997/256/{z}/{x}/{y}.png', {
+    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>',
+    maxZoom: 18
+}).addTo(map);
+
+<% @locations.each do |loc, id| %>
+var marker_<%= loc.id %> = L.marker([<%= loc.latitude %>, <%= loc.longitude %>]).addTo(map);
+
+<% end %>
+
+// var marker = L.marker([43.186983, 10.604553]).addTo(map);
+// var marker = L.marker([44.005904, 15.292969]).addTo(map);
+
+</script>
