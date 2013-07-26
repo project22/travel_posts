@@ -1,6 +1,6 @@
 TravelPosts::Application.routes.draw do
 
-  resources :posts
+
 
   resources :locations do
     resources :posts
@@ -14,9 +14,14 @@ TravelPosts::Application.routes.draw do
     # http://localhost:3000/users/1/locations/new
     # http://guides.rubyonrails.org/getting_started.html
     resources :locations
+    # resources :posts 
   end
   
   root to: 'site#index'
+
+  end
+
+
   #get 'test/path' => 'site#index'
 
   # The priority is based upon order of creation: first created -> highest priority.
@@ -73,4 +78,4 @@ TravelPosts::Application.routes.draw do
   #     # (app/controllers/admin/products_controller.rb)
   #     resources :products
   #   end
-end
+
