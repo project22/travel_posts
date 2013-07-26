@@ -11,7 +11,6 @@
  *= require_self
  *= require_tree .
  */
- #map { height: 180px; 
- 	border-style:solid;
-	border-width:5px;
+ #map { height: 400px; 
+ 	
  }
