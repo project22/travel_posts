@@ -95,9 +95,16 @@ L.tileLayer('http://{s}.tile.cloudmade.com/fbd36621a2c14de283e0a63cbab9d68b/997/
     maxZoom: 18
 }).addTo(map);
 
-<% @locations.each do |loc, id| %>
+<% @locations.each do |loc| %>
   var marker_<%= loc.id %> = L.marker([<%= loc.latitude %>, <%= loc.longitude %>]).addTo(map);
 <% end %>
+// Playing with Leaflet
+marker_2.bindPopup("Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.").openPopup();
+map.on('click', function(e) {
+    alert(e.latlng); // e is an event object (MouseEvent in this case)
+});
+
+// end playing with Leaflet
 
 // var marker = L.marker([43.186983, 10.604553]).addTo(map);
 // var marker = L.marker([44.005904, 15.292969]).addTo(map);

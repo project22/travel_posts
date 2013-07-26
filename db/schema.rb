@@ -17,8 +17,9 @@ ActiveRecord::Schema.define(version: 20130725181842) do
     t.float    "latitude"
     t.float    "longitude"
     t.string   "name"
+    t.string   "tag"
+    t.boolean  "is_private"
     t.integer  "user_id"
-    t.string   "user_email"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -34,7 +35,10 @@ ActiveRecord::Schema.define(version: 20130725181842) do
   create_table "users", force: true do |t|
     t.string   "name"
     t.string   "email"
-    t.string   "password"
+    t.string   "salt"
+    t.string   "fish"
+    t.string   "code"
+    t.datetime "expires_at"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
