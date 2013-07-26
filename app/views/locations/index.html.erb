@@ -10,6 +10,7 @@
       <th></th>
       <th></th>
       <th></th>
+      <th></th>
     </tr>
   </thead>
 
@@ -23,6 +24,7 @@
         <td><%= link_to 'Show', user_location_path(@user, location) %></td>
         <td><%= link_to 'Edit', edit_user_location_path(@user, location) %></td>
         <td><%= link_to 'Destroy', user_location_path(@user, location), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'View Posts', location_posts_path(@user, location) %></td>
       </tr>
     <% end %>
   </tbody>

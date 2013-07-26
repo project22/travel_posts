@@ -1,8 +1,10 @@
 TravelPosts::Application.routes.draw do
 
-  resources :posts
 
-  resources :locations
+
+  resources :locations do
+    resources :posts
+  end
 
   resources :users do
     # JP added this.  Add location uner user to help user location route for a specifice user
@@ -12,9 +14,14 @@ TravelPosts::Application.routes.draw do
     # http://localhost:3000/users/1/locations/new
     # http://guides.rubyonrails.org/getting_started.html
     resources :locations
+    # resources :posts 
   end
   match '/signup',  to: 'users#new',            via: 'get'
   root to: 'site#index'
+
+  end
+
+
   #get 'test/path' => 'site#index'
 
   # The priority is based upon order of creation: first created -> highest priority.
@@ -71,4 +78,4 @@ TravelPosts::Application.routes.draw do
   #     # (app/controllers/admin/products_controller.rb)
   #     resources :products
   #   end
-end
+
