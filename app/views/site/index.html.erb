@@ -5,6 +5,7 @@
 <a href="#explore" role="button" class="btn" data-toggle="modal">Explore</a>
 <a href="#myStory" role="button" class="btn" data-toggle="modal">My Story</a>
 <a href="#signOut" role="button" class="btn" data-toggle="modal">Sign Out</a>
+<a href="#" id="show_button" role="button" class="btn" data-toggle="modal">Show Button</a>
  
 <!-- Modal -->
 <div id="addLocation" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -78,7 +79,9 @@
 	<p>Log in to add a location!</p>
 <% end %>
 
-
+<div class="myoverlay well">
+ Specifics of Location go here.  Then a scrollable comments area underneith.
+</div>
 
 
 <button class="btn btn-large btn-primary" type="button">Large button</button>
@@ -93,11 +96,14 @@ L.tileLayer('http://{s}.tile.cloudmade.com/fbd36621a2c14de283e0a63cbab9d68b/997/
 }).addTo(map);
 
 <% @locations.each do |loc, id| %>
-var marker_<%= loc.id %> = L.marker([<%= loc.latitude %>, <%= loc.longitude %>]).addTo(map);
-
+  var marker_<%= loc.id %> = L.marker([<%= loc.latitude %>, <%= loc.longitude %>]).addTo(map);
 <% end %>
 
 // var marker = L.marker([43.186983, 10.604553]).addTo(map);
 // var marker = L.marker([44.005904, 15.292969]).addTo(map);
+
+$("#show_button").click(function(){
+  $(".myoverlay").css("visibility","visible");
+});
 
 </script>

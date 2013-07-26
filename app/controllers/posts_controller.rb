@@ -4,7 +4,7 @@ class PostsController < ApplicationController
   # GET /posts
   # GET /posts.json
   def index
-    @posts = Post.all
+    @location = Location.find(params[:location_id])
   end
 
   # GET /posts/1

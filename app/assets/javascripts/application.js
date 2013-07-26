@@ -15,3 +15,7 @@
 //= require twitter/bootstrap
 //= require turbolinks
 //= require_tree .
+
+$("show_button").click(function(){
+  $("myoverlay").css("visibility","visible");
+});
