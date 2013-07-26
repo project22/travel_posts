@@ -2,7 +2,9 @@ TravelPosts::Application.routes.draw do
 
   resources :posts
 
-  resources :locations
+  resources :locations do
+    resources :posts
+  end
 
   resources :users do
     # JP added this.  Add location uner user to help user location route for a specifice user
