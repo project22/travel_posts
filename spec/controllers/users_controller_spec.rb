@@ -87,7 +87,7 @@ describe UsersController do
         User.any_instance.stub(:save).and_return(false)
         post :create, {:user => { "name" => "invalid value" }}, valid_session
         assigns(:user).should be_a_new(User)
-      end
+      end 
 
       it "re-renders the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted

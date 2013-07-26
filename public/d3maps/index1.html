@@ -1,0 +1,68 @@
+<html>
+<head>
+    <title>Current Global Earthquakes</title>
+    <!-- <link rel="stylesheet" href="css/main.css" type="text/css" /> -->
+    
+    
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <link rel="stylesheet" href="css/main.css" type="text/css">
+   
+</head>
+<body>
+
+<!-- <div id="titling">
+    <h1>Current Global Earthquakes</h1>
+</div> -->
+
+<div id="main-window">
+    <div id="globe"></div>
+    <div id="resume"></div>
+</div>
+
+<script type="text/javascript" src="scripts/quakes.js"></script>
+<script type="text/javascript">
+    var countriesJSON = "../data/worldcountries.geo.json";
+    var earthQuakesJSON = "../data/major_earthquakes_last_month.json";
+    var windowDim = 600;
+    var paddingDim = 50;
+    var id = "#globe";
+    var resumeId = "#resume";
+    var keyId = "#key-place";
+    var quakeTextId = "#current-quake";
+    var quakeLinkId = "#current-quake-link";
+    var loadTimeId = "#load-time";
+
+    var keyTextId = "#key-text"
+    var keyTextArray = [
+                    "Rollover for details",
+                    "<2.0 - Microearthquake, rarely felt, millions annually",
+                    "2.0-2.9 - Minor earthquake, weak shaking may be felt near the epicenter, 1.3M annually",
+                    "3.0-3.9 - Minor earthquake, felt tens of kilometers from the epicenter, 130,000 annually",
+                    "4.0-4.9 - Light earthquake, noticeable indoor shaking, but none to slight damage, 10,000-15,000 annually",
+                    "5.0-5.9 - Moderate earthquake, moderate to major damage to poorly constructed buildings, 1,000-1,500 annually",
+                    "6.0-6.9 - Strong earthquake, damage to many to all buildings, felt for hundreds of kilometers, 100-150 annually",
+                    "7.0-7.9 - Major earthquake, major damage over large areas, including significant building collapses, 10-20 annually",
+                    "8.0-8.9 - Great earthquake, major damage over very large areas, with very strong shaking for hundreds of kilometers, approximately 1 per year",
+                    "9.0+ - Great earthquake, massive destruction, 1 estimated every 5 to 50 years"
+                    ];
+
+    var arcWidth = -1;
+    var startColor = "#E6D97D";
+    var endColor = "#C93131";
+    // var highlightColor = "yellow";
+    var highlightColor = "#46422C";
+    var sampleQuakeId = "#sample-quake";
+
+    drawGlobe(id, windowDim, paddingDim, countriesJSON, earthQuakesJSON,
+                resumeId, keyId, quakeTextId, quakeLinkId, sampleQuakeId, loadTimeId, keyTextId, keyTextArray,
+                arcWidth, startColor, endColor, highlightColor);
+</script>
+
+
+
+<footer>
+    <p>&#169 2012 Boyd Greenfield</p>
+</footer>
+</body>
+
+</html>

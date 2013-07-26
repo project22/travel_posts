@@ -1,0 +1,73 @@
+<html>
+<head>
+    <title>Current Global Earthquakes</title>
+    <!-- <link rel="stylesheet" href="css/main.css" type="text/css" /> -->
+    <script type="text/javascript" src="../scripts/d3.v2.js"></script>
+    <script src="http://use.edgefonts.net/lato.js"></script>
+    <link rel="stylesheet" href="css/main.css" type="text/css" />
+    <!-- <script src="http://use.edgefonts.net/wallpoet:n4.js"></script>
+    <script src="http://use.edgefonts.net/ubuntu:n3,i3,n4,i4,n5,i5,n7,i7.js"></script> -->
+    <!-- <script type="text/javascript" src="https://raw.github.com/mbostock/d3/3.0/d3.js"></script> -->
+    <!-- <link rel="stylesheet" href="fonts/fonts.css" type="text/css" />
+    <link rel="stylesheet" href="css/font-awesome.css" type="text/css" /> -->
+<!-- <script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-34800589-1']);
+  _gaq.push(['_setDomainName', 'boydgreenfield.com']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script> -->
+</head>
+<body>
+
+<!-- <div id="titling">
+    <h1>Current Global Earthquakes</h1>
+</div> -->
+
+<div id="main-window">
+    <div id="globe"></div>
+    
+       
+</div>
+
+<script type="text/javascript" src="../../assets/javascripts/d3_map.js"></script>
+<script type="text/javascript">
+    var countriesJSON = "../data/worldcountries.geo.json";
+    var earthQuakesJSON = "../data/major_earthquakes_last_month.json";
+    var windowDim = 600;
+    var paddingDim = 50;
+    var id = "#globe";
+    var resumeId = "#resume";
+    var keyId = "#key-place";
+    var quakeTextId = "#current-quake";
+    var quakeLinkId = "#current-quake-link";
+    var loadTimeId = "#load-time";
+
+    var keyTextId = "#key-text"
+    var keyTextArray;
+
+    var arcWidth = -1;
+    var startColor = "#E6D97D";
+    var endColor = "#C93131";
+    // var highlightColor = "yellow";
+    var highlightColor = "#46422C";
+    var sampleQuakeId = "#sample-quake";
+
+    drawGlobe(id, windowDim, paddingDim, countriesJSON, earthQuakesJSON,
+                resumeId, keyId, quakeTextId, quakeLinkId, sampleQuakeId, loadTimeId, keyTextId, keyTextArray,
+                arcWidth, startColor, endColor, highlightColor);
+</script>
+
+
+
+
+</body>
+
+</html>

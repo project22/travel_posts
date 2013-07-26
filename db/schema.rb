@@ -18,6 +18,7 @@ ActiveRecord::Schema.define(version: 20130725181842) do
     t.float    "longitude"
     t.string   "name"
     t.integer  "user_id"
+    t.string   "user_email"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

@@ -13,7 +13,7 @@ TravelPosts::Application.routes.draw do
     # http://guides.rubyonrails.org/getting_started.html
     resources :locations
   end
-
+  
   root to: 'site#index'
   #get 'test/path' => 'site#index'
 
