@@ -6,7 +6,7 @@ class PostsController < ApplicationController
   def index
     @location = Location.includes(:posts).find(params[:location_id])
 
-    render :json => @location 
+    render :json => @location.to_json(include: [ :posts ])
 
   end
 

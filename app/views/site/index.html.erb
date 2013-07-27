@@ -68,7 +68,7 @@
   </div>
 </div>
 
-
+<!-- output list of locations.  Click on any should open modal with Location name, and list posts -->
 <% @locations.each do |loc| %>
 <div><%= loc.name %>, <%= loc.latitude %>, <%= loc.longitude %></div>
 <% end %>
@@ -95,14 +95,32 @@ L.tileLayer('http://{s}.tile.cloudmade.com/fbd36621a2c14de283e0a63cbab9d68b/997/
     maxZoom: 18
 }).addTo(map);
 
+// Output all the markers on map
 <% @locations.each do |loc| %>
   var marker_<%= loc.id %> = L.marker([<%= loc.latitude %>, <%= loc.longitude %>]).addTo(map);
+  marker_<%= loc.id %>.on('click',function(e){
+    get_location_data(<%= loc.id %>)
+  })
 <% end %>
+
 // Playing with Leaflet
 marker_2.bindPopup("Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.").openPopup();
-map.on('click', function(e) {
+
+
+marker_1.on('click', function(e) {
     alert(e.latlng); // e is an event object (MouseEvent in this case)
+    console.log(e);
 });
+
+function get_location_data(id){
+  var url = "/locations/" + id + "/posts"
+  $.ajax(url,{
+    content_type: "text/json",
+    complete: function(response){
+      console.log(response);
+    }
+  })
+}
 
 // end playing with Leaflet
 
