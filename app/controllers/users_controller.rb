@@ -43,7 +43,6 @@ class UsersController < ApplicationController
       else
         render action: 'edit'
       end
-    
   end
 
   # DELETE /users/1
@@ -64,3 +63,4 @@ class UsersController < ApplicationController
       params.require(:user).permit(:name, :email, :password, :password_confirmation)
     end
 end
+ 

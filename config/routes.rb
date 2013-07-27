@@ -16,7 +16,7 @@ TravelPosts::Application.routes.draw do
     resources :locations
     # resources :posts 
   end
-  match '/signup',  to: 'users#new',            via: 'get'
+  get '/signup',  to: 'users#new'
   root to: 'site#index'
 
   end
