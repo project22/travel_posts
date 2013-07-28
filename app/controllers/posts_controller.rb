@@ -4,10 +4,10 @@ class PostsController < ApplicationController
   # GET /posts
   # GET /posts.json
   def index
+    # @location.post
     @location = Location.includes(:posts).find(params[:location_id])
 
     render :json => @location.to_json(include: [ :posts ])
-
   end
 
   # GET /posts/1

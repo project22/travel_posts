@@ -1,41 +1,111 @@
 
 
 <div id="map"></div>
-<a href="#addLocation" role="button" class="btn" data-toggle="modal">Add Location</a>
-<a href="#explore" role="button" class="btn" data-toggle="modal">Explore</a>
-<a href="#myStory" role="button" class="btn" data-toggle="modal">My Story</a>
-<a href="#signOut" role="button" class="btn" data-toggle="modal">Sign Out</a>
-<a href="#" id="show_button" role="button" class="btn" data-toggle="modal">Show Button</a>
+<!-- The container div sits a bottom fixes.  But two sub divs use grid and wrap on collapse. -->
+<div class="well">
+   <div class="pull-left">
+    <% if @user %>
+      <a href="#addLocation" role="button" class="btn btn-small btn-primary" data-toggle="modal"><i class="icon-plus"></i> Add Location</a>
+      <a href="#" role="button" class="btn btn-small" data-toggle="modal"><i class="icon-map-marker"></i> My Locations</a>
+<!--       on clic of manage my locaiton, background color changes, this button change to Finish Managing my Locations.  Then toggles back to Explore view. -->
+    <% else %>
+      <p>Log in to add a location!</p>
+    <% end %>   
+  </div>
+  <div class="pull-right" id="tags">
+    <div>
+    <span>Select Filters: </span>
+     <span class="label"><i class="icon-remove"></i> Fun</span>
+     <span class="label"><i class="icon-remove"></i> Beauty</span>
+     <span class="label label-important"><i class="icon-ok"></i> Food</span>
+     <span class="label label-important"><i class="icon-ok"></i> Culture</span>
+     <span class="label"><i class="icon-remove"></i> Spiritual</span>
+     <span class="label"><i class="icon-remove"></i> Music</span>
+    </div>
+    <button class="btn btn-small"><i class="icon-play"></i> Play</button>
+ <!--    Play causes selected date range to increment forward until the end of timeline from current point. Find a tool for that.  Console.log the data and locations found.
+  Later maybe pass a radius/intensity number to mapper based on how close to end of range a point is.  
+  
+  All location tags will have a date.  On change of date range from slider, all locations between those two dates are set to show.  Filters considered as well.  Will be an interesting function.  Function recieves tag array, owner_only, date_start, and date_end.
+  function show_locations(tags, owner_only, date_start, date_end){
+    if (location.tagg=(tags) and location.date > date_start and location.date < date_end ){
+      $("marker_" + location.id).css = visible;
+    }
+  };
+  NOTE: Sort in current user only.  
+-->
+    <div class="progress progress-info">
+     <div class="bar pull-right" style="width: 60%">Time</div>
+    </div>
+  </div>
  
+</div>
 <!-- Modal -->
+<%= form_for [@user, @location] do |f| %>
 <div id="addLocation" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
     <h3 id="myModalLabel">Add a New Location</h3>
-  </div>
+  </div> 
   <div class="modal-body">
     <p>Enter a name for this location.</p>
-    <p><%= render 'locations/form' %></p>
-  </div>
+    <p>
+      <!-- start form -->
+      
+        <% if @location.errors.any? %>
+          <div id="error_explanation">
+            <h2><%= pluralize(@location.errors.count, "error") %> prohibited this location from being saved:</h2>
+
+            <ul>
+            <% @location.errors.full_messages.each do |msg| %>
+              <li><%= msg %></li>
+            <% end %>
+            </ul>
+          </div>
+        <% end %>
+
+       <!--  <div class="field">
+          <%= f.label :latitude %><br>
+          <%= f.text_field :latitude %>
+        </div>
+        <div class="field">
+          <%= f.label :longitude %><br>
+          <%= f.text_field :longitude %>
+        </div> -->
+        <div class="field">
+          <!-- maybe show name of location above name through map api -->
+          <%= f.label :name %><br>
+          <%= f.text_field :name %>
+        </div>
+        <!-- 
+        <div class="actions">
+          <%= f.submit :class => "btn btn-primary"%>
+        </div> -->
+      <!-- end form -->
+    </p>
+  </div>  
   <div class="modal-footer">
     <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-    <button class="btn btn-primary">Save changes</button>
+    <%= f.submit :class => "btn btn-primary"%>
   </div>
 </div>
-
+<% end %>
 <!-- Modal -->
 <div id="explore" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-header">
+  <!-- <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
     <h3 id="myModalLabel">Modal header</h3>
-  </div>
+  </div> -->
+  <div class="modal-body"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button></div>
   <div class="modal-body">
-    <p>One fine body…</p>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
   </div>
-  <div class="modal-footer">
+  <!-- <div class="modal-footer">
     <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
     <button class="btn btn-primary">Save changes</button>
-  </div>
+  </div> -->
 </div>
 
 <!-- Modal -->
@@ -69,22 +139,19 @@
 </div>
 
 <!-- output list of locations.  Click on any should open modal with Location name, and list posts -->
+<p>
 <% @locations.each do |loc| %>
 <div><%= loc.name %>, <%= loc.latitude %>, <%= loc.longitude %></div>
 <% end %>
+</p>
 
-<% if @user %>
-	<%= render 'locations/form' %>
-<% else %>
-	<p>Log in to add a location!</p>
-<% end %>
+
 
 <div class="myoverlay well">
  Specifics of Location go here.  Then a scrollable comments area underneith.
 </div>
 
 
-<button class="btn btn-large btn-primary" type="button">Large button</button>
 
 
 <script type="text/javascript">
@@ -104,13 +171,13 @@ L.tileLayer('http://{s}.tile.cloudmade.com/fbd36621a2c14de283e0a63cbab9d68b/997/
 <% end %>
 
 // Playing with Leaflet
-marker_2.bindPopup("Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.").openPopup();
+// marker_2.bindPopup("Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.").openPopup();
 
 
-marker_1.on('click', function(e) {
-    alert(e.latlng); // e is an event object (MouseEvent in this case)
-    console.log(e);
-});
+// marker_1.on('click', function(e) {
+//     alert(e.latlng); // e is an event object (MouseEvent in this case)
+//     console.log(e);
+// });
 
 function get_location_data(id){
   var url = "/locations/" + id + "/posts"
