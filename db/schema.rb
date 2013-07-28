@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130726174350) do
+ActiveRecord::Schema.define(version: 20130728004250) do
 
   create_table "locations", force: true do |t|
     t.float    "latitude"
@@ -38,6 +38,8 @@ ActiveRecord::Schema.define(version: 20130726174350) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "password_digest"
+    t.string   "salt"
+    t.string   "fish"
   end
 
 end
