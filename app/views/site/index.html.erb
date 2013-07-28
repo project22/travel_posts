@@ -1,46 +1,41 @@
+<div class="row">
+  <div class="span10">
+    <div id="map"></div>
+    <!-- The container div sits a bottom fixes.  But two sub divs use grid and wrap on collapse. -->
+    <div class="row">
+      <div class="span3 well">
+        <% if @user %>
+          <a href="#addLocation" role="button" class="btn btn-small btn-primary" data-toggle="modal"><i class="icon-plus"></i> Add Location</a>
+          <a href="#" role="button" class="btn btn-small" data-toggle="modal"><i class="icon-map-marker"></i> My Locations</a>
+          <a href="#location_posts" role="button" class="btn btn-small btn-primary" data-toggle="modal">View Location and Posts</a>
+         
+         
+    <!--       on clic of manage my locaiton, background color changes, this button change to Finish Managing my Locations.  Then toggles back to Explore view. -->
+        <% else %>
+          <p>Log in to add a location!</p>
+        <% end %>   
+      </div>
 
-
-<div id="map"></div>
-<!-- The container div sits a bottom fixes.  But two sub divs use grid and wrap on collapse. -->
-<div class="well">
-   <div class="pull-left">
-    <% if @user %>
-      <a href="#addLocation" role="button" class="btn btn-small btn-primary" data-toggle="modal"><i class="icon-plus"></i> Add Location</a>
-      <a href="#" role="button" class="btn btn-small" data-toggle="modal"><i class="icon-map-marker"></i> My Locations</a>
-<!--       on clic of manage my locaiton, background color changes, this button change to Finish Managing my Locations.  Then toggles back to Explore view. -->
-    <% else %>
-      <p>Log in to add a location!</p>
-    <% end %>   
-  </div>
-  <div class="pull-right" id="tags">
-    <div>
-    <span>Select Filters: </span>
-     <span class="label"><i class="icon-remove"></i> Fun</span>
-     <span class="label"><i class="icon-remove"></i> Beauty</span>
-     <span class="label label-important"><i class="icon-ok"></i> Food</span>
-     <span class="label label-important"><i class="icon-ok"></i> Culture</span>
-     <span class="label"><i class="icon-remove"></i> Spiritual</span>
-     <span class="label"><i class="icon-remove"></i> Music</span>
-    </div>
-    <button class="btn btn-small"><i class="icon-play"></i> Play</button>
- <!--    Play causes selected date range to increment forward until the end of timeline from current point. Find a tool for that.  Console.log the data and locations found.
-  Later maybe pass a radius/intensity number to mapper based on how close to end of range a point is.  
-  
-  All location tags will have a date.  On change of date range from slider, all locations between those two dates are set to show.  Filters considered as well.  Will be an interesting function.  Function recieves tag array, owner_only, date_start, and date_end.
-  function show_locations(tags, owner_only, date_start, date_end){
-    if (location.tagg=(tags) and location.date > date_start and location.date < date_end ){
-      $("marker_" + location.id).css = visible;
-    }
-  };
-  NOTE: Sort in current user only.  
--->
-    <div class="progress progress-info">
-     <div class="bar pull-right" style="width: 60%">Time</div>
+      <div class="span5" id="tags">
+        <div>
+          <span>Select Filters: </span>
+          <div>
+            <span class="label"><i class="icon-remove"></i> Fun</span>
+            <span class="label"><i class="icon-remove"></i> Beauty</span>
+            <span class="label label-important"><i class="icon-ok"></i> Food</span>
+            <span class="label label-important"><i class="icon-ok"></i> Culture</span>
+            <span class="label"><i class="icon-remove"></i> Spiritual</span>
+            <span class="label"><i class="icon-remove"></i> Music</span>
+          </div>
+        </div>
+      </div>   
     </div>
   </div>
- 
+  <div class="span2 well">
+    Some related content or ads
+  </div>
 </div>
-<!-- Modal -->
+<!-- Modal for Add New Location -->
 <%= form_for [@user, @location] do |f| %>
 <div id="addLocation" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-header">
@@ -90,53 +85,26 @@
   </div>
 </div>
 <% end %>
-<!-- Modal -->
-<div id="explore" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <!-- <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h3 id="myModalLabel">Modal header</h3>
-  </div> -->
-  <div class="modal-body"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button></div>
-  <div class="modal-body">
-    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
-    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
-    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
-  </div>
-  <!-- <div class="modal-footer">
-    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-    <button class="btn btn-primary">Save changes</button>
-  </div> -->
-</div>
 
-<!-- Modal -->
-<div id="myStory" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+<!-- Modal to show Location and it's posts -->
+<div id="location_posts" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h3 id="myModalLabel">Modal header</h3>
+    <h3 id="location_title"></h3>
   </div>
   <div class="modal-body">
+    <div id="output_posts">
     
+    </div>  
   </div>
   <div class="modal-footer">
     <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-    <button class="btn btn-primary">Save changes</button>
+   <!--  <button class="btn btn-primary">Save changes</button> -->
   </div>
 </div>
 
-<!-- Modal -->
-<div id="signOut" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h3 id="myModalLabel">Modal header</h3>
-  </div>
-  <div class="modal-body">
-    <p>One fine body…</p>
-  </div>
-  <div class="modal-footer">
-    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-    <button class="btn btn-primary">Save changes</button>
-  </div>
-</div>
+
 
 <!-- output list of locations.  Click on any should open modal with Location name, and list posts -->
 <p>
@@ -146,29 +114,47 @@
 </p>
 
 
-
+<!-- 
 <div class="myoverlay well">
  Specifics of Location go here.  Then a scrollable comments area underneith.
-</div>
+</div> -->
 
 
 
 
 <script type="text/javascript">
-var map = L.map('map').setView([43.186983, 10.604553], 4);
+var my_loc_id;
+var map = L.map('map').setView([43.186983, 10.604553], 2);
 
-L.tileLayer('http://{s}.tile.cloudmade.com/fbd36621a2c14de283e0a63cbab9d68b/997/256/{z}/{x}/{y}.png', {
-    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>',
-    maxZoom: 18
+// L.tileLayer('http://{s}.tile.cloudmade.com/fbd36621a2c14de283e0a63cbab9d68b/997/256/{z}/{x}/{y}.png', {
+//     attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>',
+//     maxZoom: 18
+// }).addTo(map);
+
+// add an OpenStreetMap tile layer
+L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
 }).addTo(map);
 
+
+
+
 // Output all the markers on map
+// http://leafletjs.com/reference.html#map
 <% @locations.each do |loc| %>
   var marker_<%= loc.id %> = L.marker([<%= loc.latitude %>, <%= loc.longitude %>]).addTo(map);
   marker_<%= loc.id %>.on('click',function(e){
-    get_location_data(<%= loc.id %>)
+    // alert(<%= loc.id %>)
+    // window.assign("#location_posts");
+    my_loc_id = <%= loc.id %>;
+    $('#location_posts').modal('show');
   })
 <% end %>
+
+// var imageUrl = 'http://www.lib.utexas.edu/maps/historical/newark_nj_1922.jpg',
+//     imageBounds = [[ 43.186983, 10.604553], [ 43.206983, 10.704553]];
+
+// L.imageOverlay(imageUrl, imageBounds).addTo(map);
 
 // Playing with Leaflet
 // marker_2.bindPopup("Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.").openPopup();
@@ -178,24 +164,44 @@ L.tileLayer('http://{s}.tile.cloudmade.com/fbd36621a2c14de283e0a63cbab9d68b/997/
 //     alert(e.latlng); // e is an event object (MouseEvent in this case)
 //     console.log(e);
 // });
+// function show_location_pop( y){
+//   marker_2.bindPopup(y).openPopup();
+// }
 
-function get_location_data(id){
-  var url = "/locations/" + id + "/posts"
-  $.ajax(url,{
-    content_type: "text/json",
-    complete: function(response){
-      console.log(response);
-    }
-  })
-}
+// map.on('click', show_location_pop("My Location"));
 
-// end playing with Leaflet
+// function get_location_data(id){
+//   var url = "/locations/" + id + "/posts"
+//   $.ajax(url,{
+//     content_type: "text/json",
+//     complete: function(response){
+//       console.log(response);
+//     }
+//   })
+// }
 
-// var marker = L.marker([43.186983, 10.604553]).addTo(map);
-// var marker = L.marker([44.005904, 15.292969]).addTo(map);
 
-$("#show_button").click(function(){
-  $(".myoverlay").css("visibility","visible");
-});
+// $("#show_button").click(function(){
+//   $(".myoverlay").css("visibility","visible");
+// });
 
+// show posts modal
+$('#location_posts').on('shown', function () {
+  console.log("opened");
+   $.ajax({
+    url: 'locations/' + my_loc_id +'/posts.json',
+    method: 'GET',
+    contentType: 'application/json',
+    datatype: 'json',
+    success: function(my_data) {
+    console.log(my_data);
+    console.log(my_data.name);
+    $("#location_title").html(my_data.name);
+    //output posts
+    $("#output_posts").html("");
+    $.each(my_data.posts, function(i) { $("#output_posts").append("<div class='well well-small'>" + my_data.posts[i].content +"</div>"); } );
+  }
+})
+})
+         
 </script>
