@@ -94,6 +94,16 @@
     <h3 id="location_title"></h3>
   </div>
   <div class="modal-body">
+    <div class="alert">
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+      <strong>Warning!</strong> You didn't enter a message, or some crap.
+    </div>
+    <div id="add_a_post">
+      <!-- Start add post form -->
+      <div><strong>Add Comment</strong></div>
+      <div class="my_input"><textarea rows="3" class="span5"></textarea></div>
+      <!-- End add post form -->
+    </div>
     <div id="output_posts">
     
     </div>  
@@ -207,7 +217,7 @@ $('#location_posts').on('show', function () {
     $("#location_title").html(my_data.name);
     //output posts
     $("#output_posts").html("");
-    $.each(my_data.posts, function(i) { $("#output_posts").append("<div class='well well-small'>" + my_data.posts[i].content +"</div>"); } );
+    $.each(my_data.posts, function(i) { $("#output_posts").append("<div><strong>Username needed</strong></div><div class='well well-small'>" + my_data.posts[i].content +"</div>"); } );
   }
 })
 })
