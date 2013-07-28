@@ -15,17 +15,7 @@
 
 </head>
 <body>
-	<div class="navbar  navbar-inverse navbar-static-top">
-  <div class="navbar-inner">
-    <%= link_to 'Travel Posts', root_path,  :class => "brand"%>
-    <ul class="nav">
-      <li class="active"><a href="#">All Post</a></li>
-      <li><a href="#">Add a Post</a></li>
-      <li><a href="#"  class="pull-right">Login</a></li>
-      <li><a href="#"  class="pull-right">Signup</a></li>
-    </ul>
-  </div>
-</div>
+<%= render 'layouts/header' %>
 
 <%= yield %>
 

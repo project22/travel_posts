@@ -13,6 +13,9 @@ class User < ActiveRecord::Base
     self.fish == BCrypt::Engine.hash_secret(password, self.salt)
   	end
 	
+	def User.new_remember_token
+    SecureRandom.urlsafe_base64
+  	end
   private
   
   # Automatically encrypt the passed in password (which is transient)

@@ -19,6 +19,7 @@ TravelPosts::Application.routes.draw do
     # resources :posts 
   end
   get '/signup',  to: 'users#new'
+  get '/login', to: 'sessions#new'
   root to: 'site#index'
 
   end
