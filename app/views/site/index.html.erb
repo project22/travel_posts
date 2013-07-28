@@ -7,7 +7,7 @@
         <% if @user %>
           <a href="#addLocation" role="button" class="btn btn-small btn-primary" data-toggle="modal"><i class="icon-plus"></i> Add Location</a>
           <a href="#" role="button" class="btn btn-small" data-toggle="modal"><i class="icon-map-marker"></i> My Locations</a>
-          <a href="#location_posts" role="button" class="btn btn-small btn-primary" data-toggle="modal">View Location and Posts</a>
+          
          
          
     <!--       on clic of manage my locaiton, background color changes, this button change to Finish Managing my Locations.  Then toggles back to Explore view. -->
@@ -148,6 +148,10 @@ L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
     // window.assign("#location_posts");
     my_loc_id = <%= loc.id %>;
     $('#location_posts').modal('show');
+    // Bootstrap jquery functions
+    // $('#myModal').modal('toggle');
+    // $('#myModal').modal('show');
+    // $('#myModal').modal('hide');
   })
 <% end %>
 
@@ -186,7 +190,10 @@ L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
 // });
 
 // show posts modal
-$('#location_posts').on('shown', function () {
+// Clear contents.
+
+// fetch contents of specific Location
+$('#location_posts').on('show', function () {
   console.log("opened");
    $.ajax({
     url: 'locations/' + my_loc_id +'/posts.json',
@@ -196,6 +203,7 @@ $('#location_posts').on('shown', function () {
     success: function(my_data) {
     console.log(my_data);
     console.log(my_data.name);
+    
     $("#location_title").html(my_data.name);
     //output posts
     $("#output_posts").html("");
