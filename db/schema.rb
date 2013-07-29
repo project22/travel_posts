@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130728004250) do
+ActiveRecord::Schema.define(version: 20130729013934) do
 
   create_table "locations", force: true do |t|
     t.float    "latitude"
@@ -38,8 +38,8 @@ ActiveRecord::Schema.define(version: 20130728004250) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "password_digest"
-    t.string   "salt"
-    t.string   "fish"
   end
+
+  add_index "users", ["email"], name: "index_users_on_email", unique: true
 
 end
