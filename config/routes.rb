@@ -20,6 +20,7 @@ TravelPosts::Application.routes.draw do
   end
   get '/signup',  to: 'users#new'
   get '/login', to: 'sessions#new'
+  delete '/signout', to: 'sessions#destroy'
   root to: 'site#index'
 
   end
