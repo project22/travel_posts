@@ -90,6 +90,15 @@
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
     <h3 id="location_title"></h3>
+    <div id="div_list_ex" style="float: right; margin: 10px 15px">hello</div>
+    <script type="text/javascript">
+      var birds = {'tag': 'birds'};
+      var list_ex_options = {'width': 400, 'height': 100, 'columns': 5, 'croppedPhotos': true};
+      var list_ex_widget = new panoramio.PhotoWidget('div_list_ex', birds, list_ex_options);
+      list_ex_widget.setPosition(0);
+    </script>
+
+
   </div>
   <div class="modal-body">
     <div class="alert">
