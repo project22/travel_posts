@@ -1,22 +1,20 @@
 <div class="row">
-  <div class="span10">
+  <div class="span8">
     <div id="map"></div>
     <!-- The container div sits a bottom fixes.  But two sub divs use grid and wrap on collapse. -->
     <div class="row">
-      <div class="span3 well">
+      <div class="span4 well">
         <% if @user %>
           <a href="#addLocation" role="button" class="btn btn-small btn-primary" data-toggle="modal"><i class="icon-plus"></i> Add Location</a>
           <a href="#" role="button" class="btn btn-small" data-toggle="modal"><i class="icon-map-marker"></i> My Locations</a>
           
-         
-         
-    <!--       on clic of manage my locaiton, background color changes, this button change to Finish Managing my Locations.  Then toggles back to Explore view. -->
+
         <% else %>
           <p>Log in to add a location!</p>
         <% end %>   
       </div>
 
-      <div class="span5" id="tags">
+      <div class="well span3" id="tags">
         <div>
           <span>Select Filters: </span>
           <div>
@@ -31,7 +29,7 @@
       </div>   
     </div>
   </div>
-  <div class="span2 well">
+  <div class="span4 well">
     Some related content or ads
   </div>
 </div>
@@ -96,7 +94,7 @@
   <div class="modal-body">
     <div class="alert">
       <button type="button" class="close" data-dismiss="alert">&times;</button>
-      <strong>Warning!</strong> You didn't enter a message, or some crap.
+      <strong>Warning!</strong> You didn't enter a comment, or some crap.
     </div>
     <div id="add_a_post">
       <!-- Start add post form -->
