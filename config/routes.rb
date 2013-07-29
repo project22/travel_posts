@@ -5,6 +5,8 @@ TravelPosts::Application.routes.draw do
   resources :locations do
     resources :posts
   end
+  
+  resources :sessions, only: [:new, :create, :destroy]
 
   resources :users do
     # JP added this.  Add location uner user to help user location route for a specifice user
@@ -16,7 +18,9 @@ TravelPosts::Application.routes.draw do
     resources :locations
     # resources :posts 
   end
-  
+  get '/signup',  to: 'users#new'
+  get '/login', to: 'sessions#new'
+  delete '/signout', to: 'sessions#destroy'
   root to: 'site#index'
 
   end

@@ -40,3 +40,10 @@ RSpec.configure do |config|
   #     --seed 1234
   config.order = "random"
 end
+
+module ::RSpec::Core
+class ExampleGroup
+include Capybara::DSL
+include Capybara::RSpecMatchers
+end
+end 

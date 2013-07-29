@@ -15,42 +15,10 @@
 
 </head>
 <body>
-<!-- 	<div class="navbar  navbar-inverse navbar-static-top">
-    <div class="navbar-inner">
-      <%= link_to 'Travel Posts', root_path,  :class => "brand"%>
-      <ul class="nav">
-        <li class="active"><a href="#">All Post</a></li>
-        <li><a href="#">Add a Post</a></li>
-      </ul>
-      <ul class="nav pull-right">
-        <li><a href="#"  class="pull-right">Login</a></li>
-        <li><a href="#"  class="pull-right">Signup</a></li>
-      </ul>
-    </div>
-  </div> -->
 
-<div class="navbar navbar-static-top">
-  <div class="navbar-inner">
-    <div class="container">
- 
-      <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
-      <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </a>
- 
-      <!-- Be sure to leave the brand out there if you want it shown -->
-      <a class="brand" href="#">TravelPosts</a>
- 
-      <!-- Everything you want hidden at 940px or less, place within here -->
-      <div class="nav-collapse collapse">
-        <!-- .nav, .navbar-search, .navbar-form, etc -->
-      </div>
- 
-    </div>
-  </div>
-</div>
+<%= render 'layouts/header' %>
+
+
 <%= yield %>
 
 </body>

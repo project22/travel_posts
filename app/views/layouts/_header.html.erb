@@ -1,0 +1,30 @@
+<div class="navbar  navbar-inverse navbar-static-top">
+  <div class="navbar-inner">
+    <%= link_to 'Travel Posts', root_path,  :class => "brand"%>
+    <ul class="nav">
+      <li class="active"><a href="#">All Post</a></li>
+      <li><a href="#">Add a Post</a></li>
+
+       <% if signed_in? %>
+            <li><%= link_to "Users", '#' %></li>
+            <li id="fat-menu" class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                Account <b class="caret"></b>
+              </a>
+              <ul class="dropdown-menu">
+                <li><%= link_to "Profile", current_user %></li>
+                <li><%= link_to "Settings", '#' %></li>
+                <li class="divider"></li>
+                <li>
+                  <%= link_to "Sign out", signout_path, method: "delete" %>
+                </li>
+              </ul>
+            </li>
+          <% else %>
+            <li><%= link_to "Log in", login_path %></li>
+            <li><%= link_to 'Signup', signup_path, :class => "pull-right" %></li>
+
+          <% end %>
+    </ul>
+  </div>
+</div>
