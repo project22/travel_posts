@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130729013934) do
+ActiveRecord::Schema.define(version: 20130729170730) do
 
   create_table "locations", force: true do |t|
     t.float    "latitude"
