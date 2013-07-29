@@ -6,7 +6,10 @@ class PostsController < ApplicationController
   def index
     # @location.post
     @location = Location.includes(:posts).find(params[:location_id])
-
+    @location.posts.each do | p | 
+      puts p.user.name
+      puts "hello"
+    end
     render :json => @location.to_json(include: [ :posts ])
   end
 
