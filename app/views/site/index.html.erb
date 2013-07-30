@@ -91,20 +91,32 @@
     
     <div id="div_list_ex"></div>
     <div id="loc_tag"></div>
-
-  </div>
-  <div class="modal-body">
     <div class="alert">
       <button type="button" class="close" data-dismiss="alert">&times;</button>
       <strong>Warning!</strong> You didn't enter a comment, or some crap.
     </div>
     <div id="add_a_post">
+      
       <!-- Start add post form -->
+
       <div><strong>Add Comment</strong></div>
       <div class="my_input"><textarea rows="3" class="span5" id="user_comment"></textarea></div>
       <button id="add_comment_but" class="btn btn-primary btn-small">Add Comment</button>
+     <!--  Below.  Little trick to make the add_comment_but fire on keypress of enter. -->
+      <script type="text/javascript">
+      $('#user_comment').keypress(function(event){
+        if(event.keyCode == 13){
+          $('#add_comment_but').click();
+          $('#user_comment').val("");
+        }
+      });
+      </script>
+      
       <!-- End add post form -->
     </div>
+  </div>
+  <div class="modal-body">
+   
     <div id="output_posts">
     
     </div>  
@@ -230,9 +242,12 @@ $('#location_posts').on('show', function () {
       var list_ex_widget = new panoramio.PhotoListWidget('div_list_ex', photo_area,  list_ex_options);
       list_ex_widget.setPosition(0);
 
+      console.log();
+
     //output posts
       $("#output_posts").html("");
       $("#loc_tag").html(loc_tag);
+      // How do I sort the my_data by date, most recent at top
       $.each(my_data.posts, function(i) { $("#output_posts").append("<div><strong>Username needed</strong></div><div class='well well-small'>" + my_data.posts[i].content +"</div>"); } );
 
     // Deal with adding a comment
@@ -267,7 +282,10 @@ function add_post(loc_id, post_content) {
     
     console.log(msg);
     console.log(msg.content);
-    $("#output_posts").prepend("<div><strong>Username needed</strong></div><div class='well well-small'>" + msg.content + "</div>"); 
+    // $("#output_posts").prepend("<div style='display:none'><strong>Username needed</strong></div><div class='well well-small'>" + msg.content + "</div>").fadeIn('slow'); 
+
+     var liData = "<div style='display:none'><div><strong>Username needed</strong></div><div class='well well-small'>"+ msg.content + "</div></div>";
+    $(liData).prependTo('#output_posts').slideDown('slow');
 
   });
 
