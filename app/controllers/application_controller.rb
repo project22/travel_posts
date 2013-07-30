@@ -4,5 +4,10 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   
   include SessionsHelper
+  # unless session[:user_id] == nil
+  # 	user = User.find(session[:user_id])
+  # else
+  # 	puts "no user"
+  # end
 
 end

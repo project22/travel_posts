@@ -1,109 +1,310 @@
 
+<div id="map" class="full_width"></div>
 
-<div id="map"></div>
-<a href="#addLocation" role="button" class="btn" data-toggle="modal">Add Location</a>
-<a href="#explore" role="button" class="btn" data-toggle="modal">Explore</a>
-<a href="#myStory" role="button" class="btn" data-toggle="modal">My Story</a>
-<a href="#signOut" role="button" class="btn" data-toggle="modal">Sign Out</a>
-<a href="#" id="show_button" role="button" class="btn" data-toggle="modal">Show Button</a>
- 
-<!-- Modal -->
+<!-- The container div sits a bottom fixes.  But two sub divs use grid and wrap on collapse. -->
+
+<div class="span4">
+  <% if @user %>
+    <a href="#addLocation" role="button" class="btn btn-small btn-primary" data-toggle="modal"><i class="icon-plus"></i> Add Location</a>
+    <a href="#" role="button" class="btn btn-small" data-toggle="modal"><i class="icon-map-marker"></i> My Locations</a>
+    
+
+  <% else %>
+    <p>Log in to add a location!</p>
+  <% end %>   
+</div>
+
+<div class="span4" id="tags">
+  <div>
+    <span>Select Filters: </span>
+    <div>
+      <span class="label"><i class="icon-remove"></i> Fun</span>
+      <span class="label"><i class="icon-remove"></i> Beauty</span>
+      <span class="label label-important"><i class="icon-ok"></i> Food</span>
+      <span class="label label-important"><i class="icon-ok"></i> Culture</span>
+      <span class="label"><i class="icon-remove"></i> Spiritual</span>
+      <span class="label"><i class="icon-remove"></i> Music</span>
+    </div>
+  </div>
+</div>   
+
+
+
+
+<!-- Modal for Add New Location -->
+<%= form_for [@user, @location] do |f| %>
 <div id="addLocation" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
     <h3 id="myModalLabel">Add a New Location</h3>
-  </div>
+  </div> 
   <div class="modal-body">
     <p>Enter a name for this location.</p>
-    <p><%= render 'locations/form' %></p>
-  </div>
+    <p>
+      <!-- start form -->
+      
+        <% if @location.errors.any? %>
+          <div id="error_explanation">
+            <h2><%= pluralize(@location.errors.count, "error") %> prohibited this location from being saved:</h2>
+
+            <ul>
+            <% @location.errors.full_messages.each do |msg| %>
+              <li><%= msg %></li>
+            <% end %>
+            </ul>
+          </div>
+        <% end %>
+
+       <!--  <div class="field">
+          <%= f.label :latitude %><br>
+          <%= f.text_field :latitude %>
+        </div>
+        <div class="field">
+          <%= f.label :longitude %><br>
+          <%= f.text_field :longitude %>
+        </div> -->
+        <div class="field">
+          <!-- maybe show name of location above name through map api -->
+          <%= f.label :name %><br>
+          <%= f.text_field :name %>
+        </div>
+        <!-- 
+        <div class="actions">
+          <%= f.submit :class => "btn btn-primary"%>
+        </div> -->
+      <!-- end form -->
+    </p>
+  </div>  
   <div class="modal-footer">
     <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-    <button class="btn btn-primary">Save changes</button>
+    <%= f.submit :class => "btn btn-primary"%>
   </div>
 </div>
+<% end %>
 
-<!-- Modal -->
-<div id="explore" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+<!-- Modal to show Location and it's posts -->
+<div id="location_posts" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h3 id="myModalLabel">Modal header</h3>
-  </div>
-  <div class="modal-body">
-    <p>One fine body…</p>
-  </div>
-  <div class="modal-footer">
-    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-    <button class="btn btn-primary">Save changes</button>
-  </div>
-</div>
-
-<!-- Modal -->
-<div id="myStory" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h3 id="myModalLabel">Modal header</h3>
-  </div>
-  <div class="modal-body">
+    <div><h3 id="location_title"></h3></div>
     
-  </div>
-  <div class="modal-footer">
-    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-    <button class="btn btn-primary">Save changes</button>
-  </div>
-</div>
+    <div id="div_list_ex"></div>
+    <div id="loc_tag"></div>
+    <div class="alert">
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+      <strong>Warning!</strong> You didn't enter a comment, or some crap.
+    </div>
+    <div id="add_a_post">
+      
+      <!-- Start add post form -->
 
-<!-- Modal -->
-<div id="signOut" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h3 id="myModalLabel">Modal header</h3>
+      <div><strong>Add Comment</strong></div>
+      <div class="my_input"><textarea rows="3" class="span5" id="user_comment"></textarea></div>
+      <button id="add_comment_but" class="btn btn-primary btn-small">Add Comment</button>
+     <!--  Below.  Little trick to make the add_comment_but fire on keypress of enter. -->
+      <script type="text/javascript">
+      $('#user_comment').keypress(function(event){
+        if(event.keyCode == 13){
+          $('#add_comment_but').click();
+          $('#user_comment').val("");
+        }
+      });
+      </script>
+      
+      <!-- End add post form -->
+    </div>
   </div>
   <div class="modal-body">
-    <p>One fine body…</p>
+   
+    <div id="output_posts">
+    
+    </div>  
   </div>
   <div class="modal-footer">
     <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-    <button class="btn btn-primary">Save changes</button>
+   <!--  <button class="btn btn-primary">Save changes</button> -->
   </div>
 </div>
 
 
+
+<!-- output list of locations.  Click on any should open modal with Location name, and list posts -->
+<p>
 <% @locations.each do |loc| %>
 <div><%= loc.name %>, <%= loc.latitude %>, <%= loc.longitude %></div>
 <% end %>
+</p>
 
-<% if @user %>
-	<%= render 'locations/form' %>
-<% else %>
-	<p>Log in to add a location!</p>
-<% end %>
 
+<!-- 
 <div class="myoverlay well">
  Specifics of Location go here.  Then a scrollable comments area underneith.
-</div>
+</div> -->
 
 
-<button class="btn btn-large btn-primary" type="button">Large button</button>
 
 
 <script type="text/javascript">
-var map = L.map('map').setView([43.186983, 10.604553], 4);
+var my_loc_id;
+var map = L.map('map').setView([41.186983, 6], 4);
 
-L.tileLayer('http://{s}.tile.cloudmade.com/fbd36621a2c14de283e0a63cbab9d68b/997/256/{z}/{x}/{y}.png', {
-    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>',
-    maxZoom: 18
+// L.tileLayer('http://{s}.tile.cloudmade.com/fbd36621a2c14de283e0a63cbab9d68b/997/256/{z}/{x}/{y}.png', {
+//     attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>',
+//     maxZoom: 18
+// }).addTo(map);
+
+// add an OpenStreetMap tile layer
+L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
 }).addTo(map);
 
-<% @locations.each do |loc, id| %>
+// var photo_lat = 0;
+// var photo_long = 0;
+
+
+// Output all the markers on map
+// http://leafletjs.com/reference.html#map
+<% @locations.each do |loc| %>
   var marker_<%= loc.id %> = L.marker([<%= loc.latitude %>, <%= loc.longitude %>]).addTo(map);
+  marker_<%= loc.id %>.on('click',function(e){
+    
+    // alert(<%= loc.id %>)
+    // window.assign("#location_posts");
+    my_loc_id = <%= loc.id %>;
+    $('#location_posts').modal('show');
+    // Bootstrap jquery functions
+    // $('#myModal').modal('toggle');
+    // $('#myModal').modal('show');
+    // $('#myModal').modal('hide');
+  })
 <% end %>
 
-// var marker = L.marker([43.186983, 10.604553]).addTo(map);
-// var marker = L.marker([44.005904, 15.292969]).addTo(map);
+// var imageUrl = 'http://www.lib.utexas.edu/maps/historical/newark_nj_1922.jpg',
+//     imageBounds = [[ 43.186983, 10.604553], [ 43.206983, 10.704553]];
 
-$("#show_button").click(function(){
-  $(".myoverlay").css("visibility","visible");
-});
+// L.imageOverlay(imageUrl, imageBounds).addTo(map);
+
+// Playing with Leaflet
+// marker_2.bindPopup("Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.").openPopup();
+
+
+// marker_1.on('click', function(e) {
+//     alert(e.latlng); // e is an event object (MouseEvent in this case)
+//     console.log(e);
+// });
+// function show_location_pop( y){
+//   marker_2.bindPopup(y).openPopup();
+// }
+
+// map.on('click', show_location_pop("My Location"));
+
+// function get_location_data(id){
+//   var url = "/locations/" + id + "/posts"
+//   $.ajax(url,{
+//     content_type: "text/json",
+//     complete: function(response){
+//       console.log(response);
+//     }
+//   })
+// }
+
+
+// $("#show_button").click(function(){
+//   $(".myoverlay").css("visibility","visible");
+// });
+
+// show posts modal
+// Clear contents.
+
+// fetch contents of specific Location
+$('#location_posts').on('show', function () {
+  // console.log("opened");
+   $.ajax({
+    url: 'locations/' + my_loc_id +'/posts.json',
+    method: 'GET',
+    contentType: 'application/json',
+    datatype: 'json',
+    success: function(my_data) {
+      console.log(my_data);
+      console.log(my_data.name);
+    // all this happens if the JSON succeeds.  That's why it's in here.
+      $("#location_title").html(my_data.name);
+
+    // Show panoramio
+      var list_ex_options = {'width': 350, 'height': 150, 'columns': 2, 'croppedPhotos': true};
+      var photo_radius = 1;
+      var photo_lat = my_data.latitude;
+      var photo_long = my_data.longitude;
+      var loc_tag = my_data.tag;
+
+      var photo_area = { 'rect': {'sw': {'lat': photo_lat - photo_radius, 'lng': photo_long - photo_radius }, 'ne': {'lat': photo_lat + photo_radius, 'lng': photo_long + photo_radius }} };
+      var list_ex_widget = new panoramio.PhotoListWidget('div_list_ex', photo_area,  list_ex_options);
+      list_ex_widget.setPosition(0);
+
+      console.log();
+
+    //output posts
+      $("#output_posts").html("");
+      $("#loc_tag").html(loc_tag);
+      // How do I sort the my_data by date, most recent at top
+      $.each(my_data.posts, function(i) { $("#output_posts").append("<div><strong>Username needed</strong></div><div class='well well-small'>" + my_data.posts[i].content +"</div>"); } );
+
+    // Deal with adding a comment
+    // Capture teh click on the add_comment_but with jQuery
+      $("#add_comment_but").click(function() {
+        add_post(my_loc_id, $("#user_comment").val() );
+      })
+
+
+    }
+  })
+})
+
+
+ 
+// When a user submits a new message in the Location Modal, this stores and loads the new messaage.
+function add_post(loc_id, post_content) {
+  // user_id from session
+  console.log(post_content + " - loc_id:" + loc_id);
+  //On click of submit button, collect fields from form.
+
+
+  //Validate that there is a content in the message.
+
+
+  // Ajax POST the data
+  $.ajax({
+    type: "POST",
+    url: 'locations/' + loc_id +'/posts.json',
+    data: { post:  { location_id: loc_id, user_id: 1, content: post_content } }
+  }).done(function( msg ) {
+    
+    console.log(msg);
+    console.log(msg.content);
+    // $("#output_posts").prepend("<div style='display:none'><strong>Username needed</strong></div><div class='well well-small'>" + msg.content + "</div>").fadeIn('slow'); 
+
+     var liData = "<div style='display:none'><div><strong>Username needed</strong></div><div class='well well-small'>"+ msg.content + "</div></div>";
+    $(liData).prependTo('#output_posts').slideDown('slow');
+
+  });
+
+
+// junk
+// $.ajax({
+//     url: 'locations/' + my_loc_id +'/posts.json',
+//     method: 'GET',
+//     contentType: 'application/json',
+//     datatype: 'json',
+//     success: function(my_data) {
+
+// junk
+
+
+
+  // on success, load new message in view
+
+} 
+
 
 </script>
