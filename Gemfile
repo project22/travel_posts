@@ -7,7 +7,7 @@ gem 'rails', '4.0.0'
 gem "twitter-bootstrap-rails", "~> 2.2.7"
 
 # Use sqlite3 as the database for Active Record
-gem 'pg'
+gem 'pg', '0.15.1'
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.0'
@@ -48,7 +48,10 @@ group :development, :test do
 	gem 'factory_girl_rails', '4.2.1'
 end
 
-
+group :production do
+  gem 'pg', '0.15.1'
+  gem 'rails_12factor', '0.0.2'
+end
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
