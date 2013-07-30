@@ -101,7 +101,8 @@
     <div id="add_a_post">
       <!-- Start add post form -->
       <div><strong>Add Comment</strong></div>
-      <div class="my_input"><textarea rows="3" class="span5"></textarea></div>
+      <div class="my_input"><textarea rows="3" class="span5" id="user_comment"></textarea></div>
+      <button id="add_comment_but" class="btn btn-primary btn-small">Add Comment</button>
       <!-- End add post form -->
     </div>
     <div id="output_posts">
@@ -206,20 +207,20 @@ L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
 
 // fetch contents of specific Location
 $('#location_posts').on('show', function () {
-  console.log("opened");
+  // console.log("opened");
    $.ajax({
     url: 'locations/' + my_loc_id +'/posts.json',
     method: 'GET',
     contentType: 'application/json',
     datatype: 'json',
     success: function(my_data) {
-    console.log(my_data);
-    console.log(my_data.name);
-    
-    $("#location_title").html(my_data.name);
+      console.log(my_data);
+      console.log(my_data.name);
+    // all this happens if the JSON succeeds.  That's why it's in here.
+      $("#location_title").html(my_data.name);
 
     // Show panoramio
-     var list_ex_options = {'width': 350, 'height': 150, 'columns': 2, 'croppedPhotos': true};
+      var list_ex_options = {'width': 350, 'height': 150, 'columns': 2, 'croppedPhotos': true};
       var photo_radius = 1;
       var photo_lat = my_data.latitude;
       var photo_long = my_data.longitude;
@@ -230,11 +231,62 @@ $('#location_posts').on('show', function () {
       list_ex_widget.setPosition(0);
 
     //output posts
-    $("#output_posts").html("");
-    $("#loc_tag").html(loc_tag);
-    $.each(my_data.posts, function(i) { $("#output_posts").append("<div><strong>Username needed</strong></div><div class='well well-small'>" + my_data.posts[i].content +"</div>"); } );
-  }
+      $("#output_posts").html("");
+      $("#loc_tag").html(loc_tag);
+      $.each(my_data.posts, function(i) { $("#output_posts").append("<div><strong>Username needed</strong></div><div class='well well-small'>" + my_data.posts[i].content +"</div>"); } );
+
+    // Deal with adding a comment
+    // Capture teh click on the add_comment_but with jQuery
+      $("#add_comment_but").click(function() {
+        add_post(my_loc_id, $("#user_comment").val() );
+      })
+
+
+    }
+  })
 })
-})
-         
+
+
+ 
+// When a user submits a new message in the Location Modal, this stores and loads the new messaage.
+function add_post(loc_id, post_content) {
+  // user_id from session
+  console.log(post_content + " - loc_id:" + loc_id);
+  //On click of submit button, collect fields from form.
+
+
+  //Validate that there is a content in the message.
+
+
+  // Ajax POST the data
+  $.ajax({
+    type: "POST",
+    url: 'locations/' + loc_id +'/posts.json',
+    data: { post:  { location_id: loc_id, user_id: 1, content: post_content } }
+  }).done(function( msg ) {
+    
+    console.log(msg);
+    console.log(msg.content);
+    $("#output_posts").prepend("<div><strong>Username needed</strong></div><div class='well well-small'>" + msg.content + "</div>"); 
+
+  });
+
+
+// junk
+// $.ajax({
+//     url: 'locations/' + my_loc_id +'/posts.json',
+//     method: 'GET',
+//     contentType: 'application/json',
+//     datatype: 'json',
+//     success: function(my_data) {
+
+// junk
+
+
+
+  // on success, load new message in view
+
+} 
+
+
 </script>
