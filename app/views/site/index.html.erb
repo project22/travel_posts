@@ -101,16 +101,15 @@
     
     <div id="div_list_ex"></div>
     <div id="loc_tag"></div>
-    <div class="alert">
-      <button type="button" class="close" data-dismiss="alert">&times;</button>
-      <strong>Warning!</strong> You didn't enter a comment, or some crap.
-    </div>
+   
     <div id="add_a_post">
+
       
       <!-- Start add post form -->
-
+      <!-- ******** refactor this as a form.  This whacking way I did is creating problems. -->
       <div><strong>Add Comment</strong></div>
       <div class="my_input"><textarea rows="3" class="span5" id="user_comment"></textarea></div>
+      
       <button id="add_comment_but" class="btn btn-primary btn-small">Add Comment</button>
      <!--  Below.  Little trick to make the add_comment_but fire on keypress of enter. -->
       <script type="text/javascript">
@@ -121,7 +120,7 @@
         }
       });
       </script>
-      
+     
       <!-- End add post form -->
     </div>
   </div>
@@ -195,7 +194,42 @@ var map = new L.Map("map", {
     center: new L.LatLng(start_lat, start_long),
     zoom: 4
 });
+
+
+//Add street layers to map
+var littleton = L.marker([39.61, -105.02]).bindPopup('This is Littleton, CO.'),
+    denver    = L.marker([39.74, -104.99]).bindPopup('This is Denver, CO.'),
+    aurora    = L.marker([39.73, -104.8]).bindPopup('This is Aurora, CO.'),
+    golden    = L.marker([39.77, -105.23]).bindPopup('This is Golden, CO.');
+var cities = L.layerGroup([littleton, denver, aurora, golden]);
+
+var cloudmadeUrl = 'http://{s}.tile.cloudmade.com/API-key/{styleId}/256/{z}/{x}/{y}.png',
+    cloudmadeAttribution = 'Map data &copy; 2011 OpenStreetMap contributors, Imagery &copy; 2011 CloudMade';
+
+var minimal   = L.tileLayer(cloudmadeUrl, {styleId: 22677, attribution: cloudmadeAttribution}),
+    midnight  = L.tileLayer(cloudmadeUrl, {styleId: 999,   attribution: cloudmadeAttribution}),
+    motorways = L.tileLayer(cloudmadeUrl, {styleId: 46561, attribution: cloudmadeAttribution});
+
+// var map = L.map('map', {
+//     center: new L.LatLng(39.73, -104.99),
+//     zoom: 10,
+//    layers: [minimal, motorways, cities]
+// });
+
+var baseMaps = {
+    "Minimal": minimal,
+    "Night View": midnight
+};
+
+var overlayMaps = {
+    "Motorways": motorways,
+    "Cities": cities
+};
+
+L.control.layers(baseMaps, overlayMaps).addTo(map);
+
 map.addLayer(layer);
+//End add layers
 
 
 // Output all the markers on map
@@ -281,23 +315,23 @@ $('#location_posts').on('show', function () {
       $("#location_title").html(my_data.name);
 
     // Show panoramio
-      var list_ex_options = {'width': 350, 'height': 150, 'columns': 2, 'croppedPhotos': true};
-      var photo_radius = 1;
-      var photo_lat = my_data.latitude;
-      var photo_long = my_data.longitude;
-      var loc_tag = my_data.tag;
+      // var list_ex_options = {'width': 350, 'height': 150, 'columns': 2, 'croppedPhotos': true};
+      // var photo_radius = 1;
+      // var photo_lat = my_data.latitude;
+      // var photo_long = my_data.longitude;
+      // var loc_tag = my_data.tag;
 
-      var photo_area = { 'rect': {'sw': {'lat': photo_lat - photo_radius, 'lng': photo_long - photo_radius }, 'ne': {'lat': photo_lat + photo_radius, 'lng': photo_long + photo_radius }} };
-      var list_ex_widget = new panoramio.PhotoListWidget('div_list_ex', photo_area,  list_ex_options);
-      list_ex_widget.setPosition(0);
+      // var photo_area = { 'rect': {'sw': {'lat': photo_lat - photo_radius, 'lng': photo_long - photo_radius }, 'ne': {'lat': photo_lat + photo_radius, 'lng': photo_long + photo_radius }} };
+      // var list_ex_widget = new panoramio.PhotoListWidget('div_list_ex', photo_area,  list_ex_options);
+      // list_ex_widget.setPosition(0);
 
-      console.log();
+      
 
     //output posts
       // $("#output_posts").reset;
       $("#loc_tag").html(loc_tag);
       // How do I sort the my_data by date, most recent at top
-      $.each(my_data.posts, function(i) { $("#output_posts").append("<div><strong>" + my_data.posts[i].user.name +"</strong></div><div class='well well-small'>" + my_data.posts[i].content +"</div>"); } );
+      $.each(my_data.posts, function(i) { $("#output_posts").append("<div class='pull-left'><img width='50' height='50'></div><div><div><strong>" + my_data.posts[i].user.name +"</strong></div><div class='well well-small'>" + my_data.posts[i].content +"</div></div>"); } );
 
     // Deal with adding a comment
     // Capture teh click on the add_comment_but with jQuery
