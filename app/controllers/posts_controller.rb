@@ -5,12 +5,13 @@ class PostsController < ApplicationController
   # GET /posts.json
   def index
     # @location.post
-    @location = Location.includes(:posts).find(params[:location_id])
+    @location = Location.includes(posts: [ :user ]).find(params[:location_id])
     @location.posts.each do | p | 
       puts p.user.name
+      # I need to look at the users to get the name and email of the user who owns the post
       puts "hello"
     end
-    render :json => @location.to_json(include: [ :posts ])
+    render :json => @location.to_json(include: { :posts => { :include => :user } } )
   end
 
   # GET /posts/1

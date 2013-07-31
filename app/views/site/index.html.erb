@@ -1,17 +1,8 @@
 <script>
-var start_lat = 41;
-var start_long = 6;
+// Find user's location and use it to center the map if you can.
 
-if (navigator.geolocation)
-  {
-  navigator.geolocation.getCurrentPosition(findPosition);
-  }
-  
-function findPosition(position)
-  {
-  start_lat =  position.coords.latitude;
-  start_long = position.coords.longitude; 
-  }
+//console.log start_lat;
+
 
 </script>
 
@@ -20,6 +11,9 @@ function findPosition(position)
 <!-- The container div sits a bottom fixes.  But two sub divs use grid and wrap on collapse. -->
 
 <div class="span4">
+<!--  *************************************************************
+      How can I get @user?  @current user.  Session controller?!!!
+      ************************************************************* -->
   <% if @user %>
     <a href="#addLocation" role="button" class="btn btn-small btn-primary" data-toggle="modal"><i class="icon-plus"></i> Add Location</a>
     <a href="#" role="button" class="btn btn-small" data-toggle="modal"><i class="icon-map-marker"></i> My Locations</a>
@@ -162,21 +156,46 @@ function findPosition(position)
 
 
 <script type="text/javascript">
-var my_loc_id;
-var map = L.map('map').setView([start_lat, start_long], 4);
 
-// L.tileLayer('http://{s}.tile.cloudmade.com/fbd36621a2c14de283e0a63cbab9d68b/997/256/{z}/{x}/{y}.png', {
-//     attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>',
-//     maxZoom: 18
-// }).addTo(map);
 
 // add an OpenStreetMap tile layer
-L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-}).addTo(map);
+// L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+//     attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+// }).addTo(map);
 
-// var photo_lat = 0;
-// var photo_long = 0;
+// http://developer.mapquest.com/web/products/open/map#add
+// http://omarriott.com/aux/leaflet-js-non-geographical-imagery/
+
+var start_lat;
+var start_long;
+
+if (navigator.geolocation){
+  navigator.geolocation.getCurrentPosition(findPosition);
+  console.log("what");
+  start_lat =  40;
+  start_long = 20; 
+
+}
+else {
+  console.log("hi");
+  start_lat =  40;
+  start_long = 20; 
+}
+
+function findPosition(position){
+  var start_lat =  position.coords.latitude;
+  var start_long = position.coords.longitude; 
+  console.log("you are at: " +start_lat + ", "+ start_long);
+  
+}
+
+// replace "toner" here with "terrain" or "watercolor"
+var layer = new L.StamenTileLayer("watercolor");
+var map = new L.Map("map", {
+    center: new L.LatLng(start_lat, start_long),
+    zoom: 4
+});
+map.addLayer(layer);
 
 
 // Output all the markers on map
@@ -278,7 +297,7 @@ $('#location_posts').on('show', function () {
       // $("#output_posts").reset;
       $("#loc_tag").html(loc_tag);
       // How do I sort the my_data by date, most recent at top
-      $.each(my_data.posts, function(i) { $("#output_posts").append("<div><strong>Username needed</strong></div><div class='well well-small'>" + my_data.posts[i].content +"</div>"); } );
+      $.each(my_data.posts, function(i) { $("#output_posts").append("<div><strong>" + my_data.posts[i].user.name +"</strong></div><div class='well well-small'>" + my_data.posts[i].content +"</div>"); } );
 
     // Deal with adding a comment
     // Capture teh click on the add_comment_but with jQuery

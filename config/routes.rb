@@ -21,7 +21,12 @@ TravelPosts::Application.routes.draw do
   get '/signup',  to: 'users#new'
   get '/login', to: 'sessions#new'
   delete '/signout', to: 'sessions#destroy'
+  # get '/jp',  to: 'site#index'  WHY doesn't this work?
   root to: 'site#index'
+
+  # added this route to the site controller.  In site controller I added a method called map.  That opens map.html.erb
+  # 'site#map' means go to site controller, and execute the map method.
+  get '/nate_map', to: 'site#map'
 
   end
 
