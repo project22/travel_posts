@@ -195,6 +195,7 @@ function findPosition(position){
   start_lat =  position.coords.latitude;
   start_long = position.coords.longitude; 
 
+//Render the map
   var my_loc_id;
   var map = L.map('map').setView([start_lat, start_long], 12);
 
@@ -222,7 +223,7 @@ function findPosition(position){
     })
   <% end %>
   
-}
+
 
 
 
@@ -320,5 +321,5 @@ function add_post(loc_id, post_content) {
 
 } 
 
-
+}
 </script>
