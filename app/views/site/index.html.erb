@@ -1,26 +1,29 @@
 <script>
-var start_lat;
-var start_long;
+
+var start_lat = 40;
+var start_long = 20;
 
 if (navigator.geolocation){
   navigator.geolocation.getCurrentPosition(findPosition);
-  console.log("what");
-  start_lat =  40;
-  start_long = 20; 
+  console.log("Found Lat/long");
+
+
 
 }
 else {
-  console.log("hi");
+  console.log("Did not find Lat/Long");
   start_lat =  40;
   start_long = 20; 
 }
 
 function findPosition(position){
-  var start_lat =  position.coords.latitude;
-  var start_long = position.coords.longitude; 
-  console.log("you are at: " +start_lat + ", "+ start_long);
+  start_lat =  position.coords.latitude;
+  start_long = position.coords.longitude; 
+  //console.log("Inside function: you are at: " +start_lat + ", "+ start_long);
   
 }
+
+
 
 </script>
 
@@ -54,31 +57,7 @@ function add_location() {
 $( "#add_location" ).click(function() {
   add_location();
 });
-
   </script>
-    
-
-  <% else %>
-    <p>Log in to add a location!</p>
-  <% end %>   
-</div>
-
-<div class="span4" id="tags">
-  <div>
-    <span>Select Filters: </span>
-    <div>
-      <span class="label"><i class="icon-remove"></i> Fun</span>
-      <span class="label"><i class="icon-remove"></i> Beauty</span>
-      <span class="label label-important"><i class="icon-ok"></i> Food</span>
-      <span class="label label-important"><i class="icon-ok"></i> Culture</span>
-      <span class="label"><i class="icon-remove"></i> Spiritual</span>
-      <span class="label"><i class="icon-remove"></i> Music</span>
-    </div>
-  </div>
-</div>   
-
-
-
 
 <!-- Modal for Add New Location -->
 <%= form_for [@user, @location] do |f| %>
@@ -130,6 +109,33 @@ $( "#add_location" ).click(function() {
   </div>
 </div>
 <% end %>
+
+
+
+<!-- End Add location  -->
+  <% else %>
+    <p>Log in to add a location!</p>
+  <% end %>   
+</div>
+<button id="show_latlong">Show Lat/Long</button>
+<div class="span4" id="tags">
+  <div>
+    <span>Select Filters: </span>
+    <div>
+      <span class="label"><i class="icon-remove"></i> Fun</span>
+      <span class="label"><i class="icon-remove"></i> Beauty</span>
+      <span class="label label-important"><i class="icon-ok"></i> Food</span>
+      <span class="label label-important"><i class="icon-ok"></i> Culture</span>
+      <span class="label"><i class="icon-remove"></i> Spiritual</span>
+      <span class="label"><i class="icon-remove"></i> Music</span>
+    </div>
+  </div>
+</div>   
+
+
+
+
+
 
 
 <!-- Modal to show Location and it's posts -->
