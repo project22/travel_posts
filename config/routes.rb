@@ -30,6 +30,8 @@ TravelPosts::Application.routes.draw do
 
   end
 
+  
+
 
   #get 'test/path' => 'site#index'
 
