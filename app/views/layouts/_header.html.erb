@@ -1,12 +1,11 @@
 <div class="navbar  navbar-inverse navbar-static-top">
   <div class="navbar-inner">
     <%= link_to 'Travel Posts', root_path,  :class => "brand"%>
-    <ul class="nav">
-      <li><a href="#">All Post</a></li>
-      <li><a href="#">Add a Post</a></li>
-
+    <ul class="nav pull-right">
+      <!-- <li><a href="#">All Post</a></li> -->
+      <!-- <li><a href="#">Add a Post</a></li> -->
       <% if signed_in? %>
-            <li><%= link_to "Users", '#' %></li>
+            <!-- <li><%= link_to "Users", '#' %></li> -->
             <li id="fat-menu" class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                 <%= @user.name %> <b class="caret"></b>
@@ -23,7 +22,6 @@
         <% else %>
             <li><%= link_to "Log in", login_path %></li>
             <li><%= link_to 'Signup', signup_path, :class => "pull-right" %></li>
-
         <% end %>
     </ul>
   </div>

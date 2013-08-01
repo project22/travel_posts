@@ -1,11 +1,47 @@
 <script>
+var start_lat = 0;
+var start_long = 0;
 
+if (navigator.geolocation){
+  //find the device location
+  latlong = navigator.geolocation.getCurrentPosition(findPosition);
+  console.log("Found Lat/long");
+  console.log(latlong);
+
+
+}
+else {
+  console.log("Did not find Lat/Long");
+  // start_lat =  40;
+  // start_long = 20; 
+}
+
+function findPosition(position){
+  start_lat =  position.coords.latitude;
+  start_long = position.coords.longitude; 
+  // return [position.coords.latitude, position.coords.longitude]
+}
 
 
 </script>
 
 <div id="map" class="full_width"></div>
 
+  <div class="btn-group center" data-toggle="buttons-checkbox">
+    <button type="button" id="tag-1" class="btn">Party</button>
+    <button type="button" id="tag-2" class="btn">Beauty</button>
+    <button type="button" id="tag-3" class="btn">Food</button>
+    <button type="button" id="tag-4" class="btn">Culture</button>
+    <button type="button" id="tag-5" class="btn">Spiritual</button>
+   
+  </div>
+
+
+<script type="text/javascript">
+$("#tag-2").button("toggle").addClass("btn-success")
+</script>
+
+<br><br><br><br>
 <!-- The container div sits a bottom fixes.  But two sub divs use grid and wrap on collapse. -->
 
 
@@ -17,6 +53,7 @@
   // I don't think this route and method work.  We changed it to handle posts.
 // data: { post:  { location_id: loc_id,  content: post_content } }
 //   }).done(func
+
 
 
 function add_location() {
@@ -97,15 +134,15 @@ $( "#add_location" ).click(function() {
 <button id="show_latlong">Show Lat/Long</button>
 <div class="span4" id="tags">
   <div>
-    <span>Select Filters: </span>
-    <div>
+
+<!--     <div>
       <span class="label"><i class="icon-remove"></i> Fun</span>
       <span class="label"><i class="icon-remove"></i> Beauty</span>
       <span class="label label-important"><i class="icon-ok"></i> Food</span>
       <span class="label label-important"><i class="icon-ok"></i> Culture</span>
       <span class="label"><i class="icon-remove"></i> Spiritual</span>
       <span class="label"><i class="icon-remove"></i> Music</span>
-    </div>
+    </div> -->
   </div>
 </div>   
 
@@ -176,28 +213,11 @@ $( "#add_location" ).click(function() {
 
 <script type="text/javascript">
 
-// start_lat = 40;
-// start_long = 20;
 
-if (navigator.geolocation){
-  //find the device location
-  navigator.geolocation.getCurrentPosition(findPosition);
-  console.log("Found Lat/long");
-
-}
-else {
-  console.log("Did not find Lat/Long");
-  start_lat =  40;
-  start_long = 20; 
-}
-
-function findPosition(position){
-  start_lat =  position.coords.latitude;
-  start_long = position.coords.longitude; 
 
 //Render the map
   var my_loc_id;
-  var map = L.map('map').setView([start_lat, start_long], 12);
+  var map = L.map('map').setView([start_lat, start_long], 2);
 
 
   // add an OpenStreetMap tile layer
@@ -321,5 +341,9 @@ function add_post(loc_id, post_content) {
 
 } 
 
-}
+map.on('click', function(e) {
+    alert(e.latlng);
+    // add_location();
+});
+
 </script>
