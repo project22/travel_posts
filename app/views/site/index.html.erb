@@ -35,11 +35,15 @@ function findPosition(position){
 
   <script type="text/javascript">
   // I don't think this route and method work.  We changed it to handle posts.
+// data: { post:  { location_id: loc_id,  content: post_content } }
+//   }).done(func
+
+
 function add_location() {
   $.ajax({
     type: "POST",
     url: 'locations.json',
-    data: { user_id: 1, latitude: 20 , longitude: 30 , name: 'test location', tag: "2"  }
+    data: { location: {user_id: 1, latitude: 20 , longitude: 30 , name: 'test location', tag: "2" } }
   }).done(function( msg ) {
     
     console.log(msg);
