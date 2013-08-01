@@ -1,28 +1,187 @@
 <script>
-var start_lat = 0;
-var start_long = 0;
+$(document).ready(function () {
 
-if (navigator.geolocation){
-  //find the device location
-  latlong = navigator.geolocation.getCurrentPosition(findPosition);
-  console.log("Found Lat/long");
-  console.log(latlong);
+  // Set default user geolocation and then try to get the actual location.
+  var start_lat = 0;
+  var start_long = 0;
 
-
-}
-else {
-  console.log("Did not find Lat/Long");
-  // start_lat =  40;
-  // start_long = 20; 
-}
-
-function findPosition(position){
-  start_lat =  position.coords.latitude;
-  start_long = position.coords.longitude; 
-  // return [position.coords.latitude, position.coords.longitude]
-}
+  if (navigator.geolocation){
+    //find the device location
+    latlong = navigator.geolocation.getCurrentPosition(findPosition);
+    console.log("Found Lat/long");
+   
 
 
+  }
+  else {
+    console.log("Did not find Lat/Long");
+    // start_lat =  40;
+    // start_long = 20; 
+  }
+
+  function findPosition(position){
+    start_lat =  position.coords.latitude;
+    start_long = position.coords.longitude; 
+    console.log(start_lat + ", " + start_long);
+    map.panTo([start_lat, start_long]).zoomIn(7);
+
+
+   
+
+  }
+
+  // Tag filter buttons
+  $("#tag-2").button("toggle").addClass("btn-success")
+
+
+  // Add location process 
+  function add_location() {
+    $.ajax({
+      type: "POST",
+      url: 'locations.json',
+      data: { location: {user_id: 1, latitude: 20 , longitude: 30 , name: 'test location', tag: "2" } }
+    }).done(function( msg ) {
+      
+      console.log(msg);
+      console.log(msg.content);
+    });
+  }
+
+  $( "#add_location" ).click(function() {
+    add_location();
+  });
+
+  // Below.  Little trick to make the add_comment_but fire on keypress of enter.
+  $('#user_comment').keypress(function(event){
+    if(event.keyCode == 13){
+      $('#add_comment_but').click();
+      $('#user_comment').val("");
+    }
+  });
+ 
+
+
+//Render the map
+  var my_loc_id;
+  var map = L.map('map').setView([start_lat, start_long], 2);
+
+
+  // add an OpenStreetMap tile layer
+  L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+  }).addTo(map);
+
+
+  // Output all the markers on map
+  // http://leafletjs.com/reference.html#map
+  <% @locations.each do |loc| %>
+    var marker_<%= loc.id %> = L.marker([<%= loc.latitude %>, <%= loc.longitude %>]).addTo(map);
+    marker_<%= loc.id %>.on('click',function(e){
+      
+      // alert(<%= loc.id %>)
+      // window.assign("#location_posts");
+      my_loc_id = <%= loc.id %>;
+      $('#location_posts').modal('show');
+      // Bootstrap jquery functions
+      // $('#myModal').modal('toggle');
+      // $('#myModal').modal('show');
+      // $('#myModal').modal('hide');
+    })
+  <% end %>
+  
+
+  // fetch contents of specific Location
+  $('#location_posts').on('show', function () {
+    // console.log("opened");
+     $.ajax({
+      url: 'locations/' + my_loc_id +'/posts.json',
+      method: 'GET',
+      contentType: 'application/json',
+      datatype: 'json',
+      success: function(my_data) {
+        console.log(my_data);
+        console.log(my_data.name);
+      // all this happens if the JSON succeeds.  That's why it's in here.
+        $("#location_title").html(my_data.name);
+
+      // Show panoramio
+        var list_ex_options = {'width': 350, 'height': 150, 'columns': 2, 'croppedPhotos': true};
+        var photo_radius = 1;
+        var photo_lat = my_data.latitude;
+        var photo_long = my_data.longitude;
+        var loc_tag = my_data.tag;
+
+        var photo_area = { 'rect': {'sw': {'lat': photo_lat - photo_radius, 'lng': photo_long - photo_radius }, 'ne': {'lat': photo_lat + photo_radius, 'lng': photo_long + photo_radius }} };
+        var list_ex_widget = new panoramio.PhotoListWidget('div_list_ex', photo_area,  list_ex_options);
+        list_ex_widget.setPosition(0);
+
+        console.log();
+
+      //output posts
+        $("#output_posts").reset;
+        $("#loc_tag").html(loc_tag);
+        // How do I sort the my_data by date, most recent at top
+        $.each(my_data.posts, function(i) { $("#output_posts").append("<div class='pull-left'><img width='50' height='50'></div><div><div><strong>" + my_data.posts[i].user.name +"</strong></div><div class='well well-small'>" + my_data.posts[i].content +"</div></div>"); } );
+
+      // Deal with adding a comment
+      // Capture teh click on the add_comment_but with jQuery
+        $("#add_comment_but").click(function() {
+          add_post(my_loc_id, $("#user_comment").val() );
+        })
+
+
+      }
+    })
+  })
+
+
+   
+  // When a user submits a new message in the Location Modal, this stores and loads the new messaage.
+  function add_post(loc_id, post_content) {
+    // user_id from session
+    console.log(post_content + " - loc_id:" + loc_id);
+    //On click of submit button, collect fields from form.
+
+
+    //Validate that there is a content in the message.
+
+
+    // Ajax POST the data
+    $.ajax({
+      type: "POST",
+      url: 'locations/' + loc_id +'/posts.json',
+      data: { post:  { location_id: loc_id,  content: post_content } }
+    }).done(function( msg ) {
+      
+      console.log(msg);
+      console.log(msg.content);
+      // $("#output_posts").prepend("<div style='display:none'><strong>Username needed</strong></div><div class='well well-small'>" + msg.content + "</div>").fadeIn('slow'); 
+
+       var liData = "<div style='display:none'><div><strong>Username needed</strong></div><div class='well well-small'>"+ msg.content + "</div></div>";
+      $(liData).prependTo('#output_posts').slideDown('slow');
+
+    });
+
+
+  } 
+
+// Add a new location
+  map.on('click', function(e) {
+
+     var popup = L.popup()
+    .setLatLng([e.latlng.lat, e.latlng.lng])
+    .setContent('<h3>Add a Location</h3><div>' + e.latlng.lat + ', ' + e.latlng.lng + '</div><div><form><input type="text"></form></div>')
+    .openOn(map);
+
+      // alert(e.latlng);
+      // add_location();
+  });    
+// End Add a location
+
+
+
+//end doc on load.
+});
 </script>
 
 <div id="map" class="full_width"></div>
@@ -37,9 +196,6 @@ function findPosition(position){
   </div>
 
 
-<script type="text/javascript">
-$("#tag-2").button("toggle").addClass("btn-success")
-</script>
 
 <br><br><br><br>
 <!-- The container div sits a bottom fixes.  But two sub divs use grid and wrap on collapse. -->
@@ -49,29 +205,7 @@ $("#tag-2").button("toggle").addClass("btn-success")
   <% if @user %>
     <a role="button" id="add_location" class="btn btn-small btn-primary" data-toggle="modal"><i class="icon-plus"></i> Add Location</a>
 
-  <script type="text/javascript">
-  // I don't think this route and method work.  We changed it to handle posts.
-// data: { post:  { location_id: loc_id,  content: post_content } }
-//   }).done(func
 
-
-
-function add_location() {
-  $.ajax({
-    type: "POST",
-    url: 'locations.json',
-    data: { location: {user_id: 1, latitude: 20 , longitude: 30 , name: 'test location', tag: "2" } }
-  }).done(function( msg ) {
-    
-    console.log(msg);
-    console.log(msg.content);
-  });
-}
-
-$( "#add_location" ).click(function() {
-  add_location();
-});
-  </script>
 
 <!-- Modal for Add New Location -->
 <%= form_for [@user, @location] do |f| %>
@@ -168,15 +302,6 @@ $( "#add_location" ).click(function() {
       <div><strong>Add Comment</strong></div>
       <div class="my_input"><textarea rows="3" class="span5" id="user_comment"></textarea></div>
       <button id="add_comment_but" class="btn btn-primary btn-small">Add Comment</button>
-     <!--  Below.  Little trick to make the add_comment_but fire on keypress of enter. -->
-      <script type="text/javascript">
-      $('#user_comment').keypress(function(event){
-        if(event.keyCode == 13){
-          $('#add_comment_but').click();
-          $('#user_comment').val("");
-        }
-      });
-      </script>
       
       <!-- End add post form -->
     </div>
@@ -215,135 +340,5 @@ $( "#add_location" ).click(function() {
 
 
 
-//Render the map
-  var my_loc_id;
-  var map = L.map('map').setView([start_lat, start_long], 2);
-
-
-  // add an OpenStreetMap tile layer
-  L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-  }).addTo(map);
-
-
-  // Output all the markers on map
-  // http://leafletjs.com/reference.html#map
-  <% @locations.each do |loc| %>
-    var marker_<%= loc.id %> = L.marker([<%= loc.latitude %>, <%= loc.longitude %>]).addTo(map);
-    marker_<%= loc.id %>.on('click',function(e){
-      
-      // alert(<%= loc.id %>)
-      // window.assign("#location_posts");
-      my_loc_id = <%= loc.id %>;
-      $('#location_posts').modal('show');
-      // Bootstrap jquery functions
-      // $('#myModal').modal('toggle');
-      // $('#myModal').modal('show');
-      // $('#myModal').modal('hide');
-    })
-  <% end %>
-  
-
-
-
-
-
-
-
-
-
-// fetch contents of specific Location
-$('#location_posts').on('show', function () {
-  // console.log("opened");
-   $.ajax({
-    url: 'locations/' + my_loc_id +'/posts.json',
-    method: 'GET',
-    contentType: 'application/json',
-    datatype: 'json',
-    success: function(my_data) {
-      console.log(my_data);
-      console.log(my_data.name);
-    // all this happens if the JSON succeeds.  That's why it's in here.
-      $("#location_title").html(my_data.name);
-
-    // Show panoramio
-      var list_ex_options = {'width': 350, 'height': 150, 'columns': 2, 'croppedPhotos': true};
-      var photo_radius = 1;
-      var photo_lat = my_data.latitude;
-      var photo_long = my_data.longitude;
-      var loc_tag = my_data.tag;
-
-      var photo_area = { 'rect': {'sw': {'lat': photo_lat - photo_radius, 'lng': photo_long - photo_radius }, 'ne': {'lat': photo_lat + photo_radius, 'lng': photo_long + photo_radius }} };
-      var list_ex_widget = new panoramio.PhotoListWidget('div_list_ex', photo_area,  list_ex_options);
-      list_ex_widget.setPosition(0);
-
-      console.log();
-
-    //output posts
-      $("#output_posts").reset;
-      $("#loc_tag").html(loc_tag);
-      // How do I sort the my_data by date, most recent at top
-      $.each(my_data.posts, function(i) { $("#output_posts").append("<div class='pull-left'><img width='50' height='50'></div><div><div><strong>" + my_data.posts[i].user.name +"</strong></div><div class='well well-small'>" + my_data.posts[i].content +"</div></div>"); } );
-
-    // Deal with adding a comment
-    // Capture teh click on the add_comment_but with jQuery
-      $("#add_comment_but").click(function() {
-        add_post(my_loc_id, $("#user_comment").val() );
-      })
-
-
-    }
-  })
-})
-
-
- 
-// When a user submits a new message in the Location Modal, this stores and loads the new messaage.
-function add_post(loc_id, post_content) {
-  // user_id from session
-  console.log(post_content + " - loc_id:" + loc_id);
-  //On click of submit button, collect fields from form.
-
-
-  //Validate that there is a content in the message.
-
-
-  // Ajax POST the data
-  $.ajax({
-    type: "POST",
-    url: 'locations/' + loc_id +'/posts.json',
-    data: { post:  { location_id: loc_id,  content: post_content } }
-  }).done(function( msg ) {
-    
-    console.log(msg);
-    console.log(msg.content);
-    // $("#output_posts").prepend("<div style='display:none'><strong>Username needed</strong></div><div class='well well-small'>" + msg.content + "</div>").fadeIn('slow'); 
-
-     var liData = "<div style='display:none'><div><strong>Username needed</strong></div><div class='well well-small'>"+ msg.content + "</div></div>";
-    $(liData).prependTo('#output_posts').slideDown('slow');
-
-  });
-
-
-// junk
-// $.ajax({
-//     url: 'locations/' + my_loc_id +'/posts.json',
-//     method: 'GET',
-//     contentType: 'application/json',
-//     datatype: 'json',
-//     success: function(my_data) {
-
-// junk
-
-
-
-  // on success, load new message in view
-
-} 
-
-map.on('click', function(e) {
-    alert(e.latlng);
-    // add_location();
-});
 
 </script>
