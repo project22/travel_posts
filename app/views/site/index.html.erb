@@ -183,10 +183,12 @@ $(document).ready(function () {
     .openOn(map);
 
     // map.panTo([e.latlng.lat, e.latlng.lng]);
-    var locname = $("#locname").val(); // THis doesn't work because this is not an actual dom element.
+   
+    console.log(locname);
 
       // alert(e.latlng);
       $( "#add_location" ).click(function() {
+        locname = $("#locname").val();
         add_location(lat, lng, locname, 2);
         //closePopup();
       });
@@ -208,7 +210,7 @@ $(document).ready(function () {
     }).done(function( msg ) {
 
       // I need the number of the new id
-      my_loc_id = 10;
+      my_loc_id = msg.id;
       $('#location_posts').modal('show');
       // refresh the map
 

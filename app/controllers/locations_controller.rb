@@ -32,7 +32,7 @@ class LocationsController < ApplicationController
     respond_to do |format|
       if @location.save
         format.html { redirect_to [@user, @location], notice: 'Location was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @location }
+        format.json { render json: @location, status: :created }
       else
         format.html { render action: 'new' }
         format.json { render json: @location.errors, status: :unprocessable_entity }
