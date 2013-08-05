@@ -49,16 +49,16 @@ $(document).ready(function () {
 
 
   // add an OpenStreetMap tile layer
-  // L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-  //     attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-  // }).addTo(map);
+  L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+  }).addTo(map);
 
   var layer = new L.StamenTileLayer("watercolor");
   // var map = new L.Map("element_id", {
   //     center: new L.LatLng(37.7, -122.4),
   //     zoom: 12
   // });
-  map.addLayer(layer);
+  // map.addLayer(layer);
 
 
   // Output all the markers on map
@@ -193,7 +193,7 @@ $(document).ready(function () {
         //closePopup();
       });
       $("#close_button").click(function() {      
-        
+      popup.close
       });
   });   
 
@@ -228,6 +228,7 @@ $(document).ready(function () {
 //end doc on load.
 });
 </script>
+
 
 <div id="map" class="full_width"></div>
 

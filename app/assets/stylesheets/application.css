@@ -36,4 +36,8 @@
 	padding: 0px;
 
 }
+@media (max-width: 767px) {
+    body {
+        padding: 0;
+    }
 
