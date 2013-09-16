@@ -8,6 +8,8 @@ gem 'rails', '4.0.0'
 # Bootstrap Gem.  JP added
 gem "twitter-bootstrap-rails", "~> 2.2.7"
 
+gem 'gravatar-ultimate'
+
 # Use sqlite3 as the database for Active Record
 gem 'pg', '0.15.1'
 

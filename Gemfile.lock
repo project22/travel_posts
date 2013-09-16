@@ -54,6 +54,7 @@ GEM
       railties (>= 3.0.0)
     ffi (1.9.0)
     formatador (0.2.4)
+    gravatar-ultimate (1.0.3)
     guard (1.8.1)
       formatador (>= 0.2.4)
       listen (>= 1.0.0)
@@ -190,6 +191,7 @@ DEPENDENCIES
   coffee-rails (~> 4.0.0)
   execjs
   factory_girl_rails (= 4.2.1)
+  gravatar-ultimate
   guard-rspec
   jbuilder (~> 1.2)
   jquery-rails

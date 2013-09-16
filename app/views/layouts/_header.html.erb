@@ -1,28 +1,30 @@
 <div class="navbar  navbar-inverse navbar-static-top">
   <div class="navbar-inner">
-    <%= link_to 'Travel Posts', root_path,  :class => "brand"%>
+    <%= link_to 'Travel Posts', root_path,  :class => "brand"%><i class="icon-globe"></i>
     <ul class="nav pull-right">
       <!-- <li><a href="#">All Post</a></li> -->
       <!-- <li><a href="#">Add a Post</a></li> -->
       <% if signed_in? %>
-            <!-- <li><%= link_to "Users", '#' %></li> -->
-            <li id="fat-menu" class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                <%= @user.name %> <b class="caret"></b>
-              </a>
-              <ul class="dropdown-menu">
-                <li><%= link_to "Profile", current_user %></li>
-                <li><%= link_to "Settings", '#' %></li>
-                <li class="divider"></li>
-                <li>
-                  <%= link_to "Sign out", signout_path, method: "delete" %>
-                </li>
-              </ul>
+        <!-- <li><%= link_to "Users", '#' %></li> -->
+        <li id="fat-menu" class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+            <% img_url = Gravatar.new(@user.email).image_url %>
+            <img class="gravitar" src="<%= img_url %>"/>
+            <%= @user.name %> <b class="caret"></b>
+          </a>
+          <ul class="dropdown-menu">
+            <li><%= link_to "Profile", current_user %></li>
+            <li><%= link_to "Settings", '#' %></li>
+            <li class="divider"></li>
+            <li>
+              <%= link_to "Sign out", signout_path, method: "delete" %>
             </li>
-        <% else %>
-            <li><%= link_to "Log in", login_path %></li>
-            <li><%= link_to 'Signup', signup_path, :class => "pull-right" %></li>
-        <% end %>
+          </ul>
+        </li>
+      <% else %>
+        <li><%= link_to "Log in", login_path %></li>
+        <li><%= link_to 'Signup', signup_path, :class => "pull-right" %></li>
+      <% end %>
     </ul>
   </div>
 </div>
