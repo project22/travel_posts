@@ -28,13 +28,14 @@ $(document).ready(function () {
 
 
   // Below.  Little trick to make the add_comment_but fire on keypress of enter.
+  
   $('#user_comment').keypress(function(event){
     if(event.keyCode == 13){
       $('#add_comment_but').click();
-      $('#user_comment').val("");
+      $('#user_comment').val();
     }
   });
- 
+  
  // Gravatar hash function
  function get_gravatar(email, size) {
  
@@ -71,6 +72,7 @@ $(document).ready(function () {
 
   // fetch contents of specific Location
   $('#location_posts').on('show', function () {
+    $("#user_comment").val('');
     $("#output_posts").empty();
 
     // console.log("opened");
@@ -114,14 +116,21 @@ $(document).ready(function () {
         console.log("post Object: " + my_data);
 
         // How do I sort the my_data by date, most recent at top
-        $.each(my_data.posts, function(i) { $("#output_posts").append("<div class='pull-left'><img class='gravatar' src='" + get_gravatar(my_data.posts[i].user.email, 50) +"'></div><div><div><strong>" + my_data.posts[i].user.name +"</strong></div><div class='well well-small inline'>" +my_data.posts[i].id + " " + my_data.posts[i].content +"</div></div>"); } );
+        $.each(my_data.posts, function(i) { $("#output_posts").append("<div class='row-fluid'><div class='span2'><img class='gravatar' src='" + get_gravatar(my_data.posts[i].user.email, 50) +"'></div><div class='span10'><div><strong>" + my_data.posts[i].user.name +"</strong></div><div class='well well-small '>" +my_data.posts[i].id + " " + my_data.posts[i].content +"</div></div></div>"); } );
         // post_block = 
 
       // Deal with adding a comment
       // Capture teh click on the add_comment_but with jQuery
         $("#add_comment_but").unbind("click").click(function() {
-          console.log("button clicked");
-          add_post(my_loc_id, $("#user_comment").val() );
+          console.log("value in the form" +  $('#user_comment').val() );
+          if ($('#user_comment').val().trim().length != 0 ) {
+            console.log("button clicked");
+            console.log("content to be posted: " +$("#user_comment").val() );
+            add_post(my_loc_id, $("#user_comment").val() );
+          } else {
+            alert("no content");
+          }
+
         })
       }
     })
@@ -131,12 +140,9 @@ $(document).ready(function () {
    
   // When a user submits a new message in the Location Modal, this stores and loads the new messaage.
   function add_post(loc_id, post_content) {
-    // user_id from session
-    console.log(post_content + " - loc_id:" + loc_id);
-    //On click of submit button, collect fields from form.
 
-
-    //Validate that there is a content in the message.
+    console.log("Received this message: " + post_content + " for loc_id:" + loc_id);
+    
 
 <% if @user %>
     // Ajax POST the data
@@ -146,18 +152,21 @@ $(document).ready(function () {
       data: { post:  { location_id: loc_id,  user_id: <%= @user.id %>, content: post_content } }
     }).done(function( msg ) {
       
-      console.log(msg);
-      console.log(msg.content);
+      console.log("msg: " + msg);
+      
       
       $("#user_comment").val("");
      
-      var liData = "<div class='pull-left'><img class='gravatar' src='" + get_gravatar('<%= @user.email %>', 50) + "'></div><div><div><strong>" + '<%= @user.name %>' +"</strong></div><div class='well well-small inline'>" + msg.id + " " + msg.content +"</div></div>";
+      var liData = "<div class='row-fluid'><div class='span2'><img class='gravatar' src='" + get_gravatar('<%= @user.email %>', 50) + "'></div><div class='span10'><div><strong>" + '<%= @user.name %>' +"</strong></div><div class='well well-small inline'>" + msg.id + " " + msg.content +"</div></div></div>";
     
       // var liData = "<div style='display:none'><div><strong><%= @user.name %></strong></div><div class='well well-small'>"+ msg.content + "</div></div>";
        console.log(liData);
-      $('#output_posts').slideDown(900).prepend(liData);
+       $(liData).prependTo('#output_posts').hide().slideDown(500);
+      // $('#output_posts').prepend(liData);
 
     });
+<% else %>
+  alert("you must be logged in to add a comment");
 <% end %>
 
   } 
@@ -169,7 +178,7 @@ $(document).ready(function () {
 
      var popup = L.popup()
     .setLatLng([e.latlng.lat, e.latlng.lng])
-    .setContent('<h3>Add a Location</h3>You must have an account and be logged in to add a new location.<div><button class="btn">Login</button> <button class="btn">Create Account</button></div>')
+    .setContent('<h3>Add a Location</h3>You must have an account and be logged in to add a new location.<div><a href="/login"><button class="btn">Login</button></a> <a href="/signup"><button class="btn">Create Account</button></a></div>')
     .openOn(map);
   });   
 
@@ -278,7 +287,7 @@ $(document).ready(function () {
 
 <!-- End Add location  -->
   <% else %>
-    <p>Log in to add a location!</p>
+    
   <% end %>   
 </div>
 

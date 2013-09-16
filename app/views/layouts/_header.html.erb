@@ -1,6 +1,7 @@
 <div class="navbar  navbar-inverse navbar-static-top">
   <div class="navbar-inner">
-    <%= link_to 'Travel Posts', root_path,  :class => "brand"%><i class="icon-globe"></i>
+    <a href="/" class="brand"><i class="icon-globe"></i> Travel Posts</a>
+    
     <ul class="nav pull-right">
       <!-- <li><a href="#">All Post</a></li> -->
       <!-- <li><a href="#">Add a Post</a></li> -->
@@ -17,13 +18,13 @@
             <li><%= link_to "Settings", '#' %></li>
             <li class="divider"></li>
             <li>
-              <%= link_to "Sign out", signout_path, method: "delete" %>
+              <%= link_to "Log out", signout_path, method: "delete" %>
             </li>
           </ul>
         </li>
       <% else %>
         <li><%= link_to "Log in", login_path %></li>
-        <li><%= link_to 'Signup', signup_path, :class => "pull-right" %></li>
+        <li><%= link_to 'Sign up', signup_path, :class => "pull-right" %></li>
       <% end %>
     </ul>
   </div>
