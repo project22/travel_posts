@@ -13,7 +13,12 @@
  */
 
  .popup {
- 	background-color: red;
+ 	background-color: white;
+ 	padding: 20px;
+ 	margin: 10px;
+ 	border:1px solid;
+	border-radius:10px;
+	width: 100%;
  }
 .gravatar {
 	width: 50px;
@@ -23,3 +28,12 @@
 /*.inline {
 	display:inline;
 }*/
+.modal-body {
+	height: 30%;
+}
+.modal.fade.in {
+	top: 10px;
+	/*height: 100%;*/
+	
+
+}

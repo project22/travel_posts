@@ -6,6 +6,7 @@ TravelPosts::Application.routes.draw do
     resources :posts
   end
   
+
   resources :sessions, only: [:new, :create, :destroy]
 
   resources :users do
